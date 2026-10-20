@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Matematik12.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>
