@@ -463,3 +463,9 @@ main:focus { outline: none; }
   margin-top: 8px; display: inline-block; padding: 6px 14px; border-radius: 999px; font-weight: 800;
   background: var(--surface-strong); border: 1px solid var(--line); color: var(--brand-2); font-variant-numeric: tabular-nums;
 }
+.prep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.prep-grid a {
+  padding: 12px 14px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); text-align: center;
+  transition: border-color .2s, transform .2s;
+}
+.prep-grid a:hover { border-color: var(--brand); transform: translateY(-2px); text-decoration: none; }
