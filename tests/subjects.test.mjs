@@ -33,3 +33,17 @@ test('subject tests change between builds', () => {
     assert.notEqual(a, b, key);
   }
 });
+
+test('LGS denemesi has 90 questions in the official subject split', async () => {
+  const {buildLgs} = await import('../docs/js/subjects.js');
+  const exam = buildLgs(seeded(4));
+  assert.equal(exam.questions.length, 90);
+  const counts = {};
+  for (const q of exam.questions) counts[q.topicName] = (counts[q.topicName] || 0) + 1;
+  assert.deepEqual(counts, {'Matematik': 20, 'Türkçe': 20, 'Fen Bilimleri': 20, 'T.C. İnkılap Tarihi': 10, 'Din Kültürü': 10, 'İngilizce': 10});
+  for (const q of exam.questions) {
+    assert.equal(q.options.length, 5);
+    assert.equal(new Set(q.options).size, 5, `duplicate options: ${q.options}`);
+    assert.equal(q.options[q.correctIndex], q.question.answerText);
+  }
+});

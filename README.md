@@ -34,6 +34,10 @@ Her sınıfın sayfasında bir sınav bölümü var. Sınav, sınıfın konular�
 
 Üniversiteye hazırlık bölümünde fizik, kimya, biyoloji, Türkçe, tarih, coğrafya, felsefe ve İngilizce için 10 soruluk denemeler var. Fizik ve kimya soruları şablonla her seferinde yeniden üretilir. Diğer derslerin soruları elle yazılmış bir soru bankasından seçilir ve seçenekler her denemede karıştırılır. Karma deneme, tüm derslerden 40 soru içerir.
 
+## LGS denemesi
+
+8. sınıf sayfasında **LGS denemesi** var: 90 soru (Türkçe 20, matematik 20, fen 20, inkılap 10, din kültürü 10, İngilizce 10) ve 155 dakikalık süre sayacı. Dağılım, yayımlanan LGS kaynaklarına göre hazırlandı. Matematik soruları 5–8. sınıf konularından şablonla üretilir; diğer dersler soru bankasından seçilir.
+
 ## Giriş ve öğrenci hesabı
 
 Uygulama **TROÇKİ STUDİO · Matematik Öğreniyorum** giriş ekranıyla açılır. Öğrenci adını, sınıfını ve 4 rakamlı şifresini girerek hesap oluşturur; sonra aynı bilgilerle giriş yapar. Hesaplar bu tarayıcıda saklanır, şifre düz metin olarak tutulmaz (tuzlanmış SHA-256 özeti). Bu yerel bir giriştir; sunucu tabanlı değildir.

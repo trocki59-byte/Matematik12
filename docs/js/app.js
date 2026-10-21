@@ -4,7 +4,7 @@ import {createSession} from './session.js';
 import {EXAM_LENGTH, LETTERS, buildExam, gradeExam, examTopicsFor} from './exams.js';
 import {createAuthStore, PIN_PATTERN} from './auth.js';
 import {buildDeneme, DENEMELER} from './deneme.js';
-import {buildSubjectTest, SUBJECTS} from './subjects.js';
+import {buildSubjectTest, buildLgs, LGS_MINUTES, SUBJECTS} from './subjects.js';
 import {VERSION} from './version.js';
 
 // ---------- Yardımcılar ----------
@@ -118,6 +118,7 @@ function renderHome(grade) {
       h('p', {text: `${gradeTopics.length} konu · ${units.length} ünite`})),
     examBanner(grade),
     grade === 12 ? prepBanner() : null,
+    grade === 8 ? lgsBanner() : null,
     ...units.map(unit => h('section', {class: 'unit', 'aria-labelledby': `unit-${grade}-${units.indexOf(unit)}`},
       h('h2', {id: `unit-${grade}-${units.indexOf(unit)}`, text: unit.name}),
       h('div', {class: 'cards'}, unit.topics.map(topicCard)))),
@@ -500,6 +501,15 @@ function prepBanner() {
     h('span', {class: 'arrow', 'aria-hidden': 'true', text: '→'}));
 }
 
+function lgsBanner() {
+  return h('a', {class: 'exam-banner', href: '#/lgs', style: {'--accent': GRADE_COLORS[8]}},
+    h('span', {class: 'exam-banner-icon', 'aria-hidden': 'true', text: '🏫'}),
+    h('span', {class: 'exam-banner-text'},
+      h('strong', {text: 'LGS denemesi'}),
+      h('span', {text: '90 soru · tüm dersler · süre sayacı · her seferinde yeni sorular'})),
+    h('span', {class: 'arrow', 'aria-hidden': 'true', text: '→'}));
+}
+
 function renderPrepHome() {
   const prep = prepTopics();
   const recent = store.examsFor(12).filter(e => e.label).slice(0, 5);
@@ -556,6 +566,10 @@ function route() {
       renderTopic(topic, parts[2] === 'alistirma' ? 'alistirma' : 'anlatim');
       return;
     }
+  }
+  if (parts[0] === 'lgs') {
+    renderExamStart(8, {builder: () => buildLgs(), label: 'LGS denemesi', title: 'LGS denemesi (90 soru)', backHref: '#/sinif/8', minutes: LGS_MINUTES});
+    return;
   }
   if (parts[0] === 'ders' && (parts[1] === 'karma' || SUBJECTS.some(x => x.key === parts[1]))) {
     const key = parts[1];
