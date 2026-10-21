@@ -1,4 +1,4 @@
-const CACHE = 'matematik12-v3';
+const CACHE = 'matematik12-v4';
 const FILES = [
   './', './index.html', './styles.css', './manifest.webmanifest', './icon.svg',
   './js/app.js', './js/answers.js', './js/curriculum.js', './js/progress.js', './js/session.js', './js/steps.js',
