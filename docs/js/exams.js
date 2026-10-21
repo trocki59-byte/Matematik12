@@ -48,9 +48,9 @@ export function choicesFor(question, rng) {
 
 // Sınav oluşturur: konular karıştırılır, sorular konular arasında dönüşümlü seçilir.
 // Her soru her seferinde yeniden üretilir ve 5 seçenekli olur.
-export function buildExam(grade, rng = Math.random, count = EXAM_LENGTH) {
+export function buildExam(grade, rng = Math.random, count = EXAM_LENGTH, poolOverride = null) {
   const random = rndFrom(rng);
-  const pool = examTopicsFor(grade);
+  const pool = poolOverride ?? examTopicsFor(grade);
   if (pool.length === 0) throw new Error('Bu sınıf için konu yok');
   const order = [...pool];
   for (let i = order.length - 1; i > 0; i--) {

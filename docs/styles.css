@@ -452,3 +452,8 @@ main:focus { outline: none; }
   width: max-content; max-width: calc(100% - 32px);
 }
 .update-banner .update-apply { padding: 10px 16px; }
+
+/* ---------- Üniversiteye hazırlık ---------- */
+.prep-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6px; }
+.prep-actions a { color: var(--brand); font-weight: 700; font-size: .95rem; }
+.prep-actions a:hover { text-decoration: underline; text-underline-offset: 3px; }

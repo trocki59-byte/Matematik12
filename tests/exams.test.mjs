@@ -90,3 +90,21 @@ test('topic practice records still work next to exam history', () => {
   assert.equal(reloaded.get(id).correct, 1);
   assert.equal(reloaded.examsFor(1).length, 1);
 });
+
+test('university prep has at least 18 topics, each with a lesson', async () => {
+  const {topics: all, lessonFor} = await import('../docs/js/curriculum.js');
+  const prep = all.filter(t => t.unit === 'Üniversiteye hazırlık');
+  assert.ok(prep.length >= 18, `only ${prep.length} prep topics`);
+  for (const t of prep) {
+    assert.equal(t.grade, 12, t.id);
+    assert.ok(lessonFor(t.id).sections.every(s => s.examples.length >= 2), `${t.id} needs examples`);
+  }
+});
+
+test('a topic-only test draws every question from that topic', async () => {
+  const {topics: all} = await import('../docs/js/curriculum.js');
+  const one = all.find(t => t.id === '12-hazirlik-kombinasyon');
+  const exam = buildExam(12, seeded(5), EXAM_LENGTH, [one]);
+  assert.equal(exam.questions.length, EXAM_LENGTH);
+  assert.ok(exam.questions.every(q => q.topicId === one.id));
+});

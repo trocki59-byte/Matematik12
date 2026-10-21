@@ -2,7 +2,8 @@ const KEY = 'matematik12.progress.v1';
 const MAX_EXAMS = 100;
 const valid = s => s && Number.isSafeInteger(s.correct) && Number.isSafeInteger(s.total) && s.correct >= 0 && s.total >= s.correct;
 const validExam = e => e && Number.isSafeInteger(e.grade) && Number.isSafeInteger(e.score) && Number.isSafeInteger(e.total)
-  && e.total > 0 && e.score >= 0 && e.score <= e.total && typeof e.date === 'string';
+  && e.total > 0 && e.score >= 0 && e.score <= e.total && typeof e.date === 'string'
+  && (e.label === undefined || typeof e.label === 'string');
 
 export function createProgressStore(storage) {
   let persistent = !!storage;
@@ -38,8 +39,9 @@ export function createProgressStore(storage) {
       save();
     },
     // Bir sınav sonucunu kaydeder. Tarih ISO biçiminde saklanır.
-    recordExam(grade, score, total, date = new Date().toISOString()) {
+    recordExam(grade, score, total, date = new Date().toISOString(), label) {
       const entry = {grade, score, total, date};
+      if (label) entry.label = String(label).slice(0, 80);
       if (!validExam(entry)) return null;
       exams = [entry, ...exams].slice(0, MAX_EXAMS);
       save();
