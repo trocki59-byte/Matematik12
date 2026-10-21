@@ -30,6 +30,10 @@ Her sınıfın sayfasında bir sınav bölümü var. Sınav, sınıfın konular�
 
 Üniversiteye hazırlık bölümünde **TYT** ve **AYT matematik denemeleri** var: 40 soru, beş şık ve süre sayacı (60 dk, tahmini). Konu ağırlıkları yayımlanan ÖSYM konu dağılımlarına göre ayarlandı (kaynaklar: eleman.net, bilgenc.com). Gerçek sınav soruları kullanılmaz; her denemede sorular yeniden üretilir.
 
+## Ders denemeleri
+
+Üniversiteye hazırlık bölümünde fizik, kimya, biyoloji, Türkçe, tarih, coğrafya, felsefe ve İngilizce için 10 soruluk denemeler var. Fizik ve kimya soruları şablonla her seferinde yeniden üretilir. Diğer derslerin soruları elle yazılmış bir soru bankasından seçilir ve seçenekler her denemede karıştırılır. Karma deneme, tüm derslerden 40 soru içerir.
+
 ## Giriş ve öğrenci hesabı
 
 Uygulama **TROÇKİ STUDİO · Matematik Öğreniyorum** giriş ekranıyla açılır. Öğrenci adını, sınıfını ve 4 rakamlı şifresini girerek hesap oluşturur; sonra aynı bilgilerle giriş yapar. Hesaplar bu tarayıcıda saklanır, şifre düz metin olarak tutulmaz (tuzlanmış SHA-256 özeti). Bu yerel bir giriştir; sunucu tabanlı değildir.

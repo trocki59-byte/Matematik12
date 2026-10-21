@@ -4,6 +4,7 @@ import {createSession} from './session.js';
 import {EXAM_LENGTH, LETTERS, buildExam, gradeExam, examTopicsFor} from './exams.js';
 import {createAuthStore, PIN_PATTERN} from './auth.js';
 import {buildDeneme, DENEMELER} from './deneme.js';
+import {buildSubjectTest, SUBJECTS} from './subjects.js';
 import {VERSION} from './version.js';
 
 // ---------- Yardımcılar ----------
@@ -515,6 +516,12 @@ function renderPrepHome() {
         h('a', {href: '#/deneme/tyt', text: 'TYT denemesi başlat'}),
         h('a', {href: '#/deneme/ayt', text: 'AYT denemesi başlat'}))),
     h('section', {class: 'exam-card'},
+      h('h2', {text: 'Ders denemeleri'}),
+      h('p', {text: 'Fizik, kimya, biyoloji, Türkçe, tarih, coğrafya, felsefe ve İngilizce için 10 soruluk denemeler. Karma denemede tüm dersler bir arada (40 soru).'}),
+      h('div', {class: 'prep-actions prep-grid'},
+        SUBJECTS.map(x => h('a', {href: `#/ders/${x.key}`, text: x.name})),
+        h('a', {href: '#/ders/karma', text: 'Karma deneme (40 soru)'}))),
+    h('section', {class: 'exam-card'},
       h('h2', {text: 'Karışık hazırlık testi'}),
       h('p', {text: `Tüm hazırlık konularından ${EXAM_LENGTH} soru, beş şıklı. Her seferinde sorular değişir.`}),
       h('a', {class: 'primary-link', href: '#/hazirlik/karisik', text: 'Karışık test başlat →'})),
@@ -549,6 +556,12 @@ function route() {
       renderTopic(topic, parts[2] === 'alistirma' ? 'alistirma' : 'anlatim');
       return;
     }
+  }
+  if (parts[0] === 'ders' && (parts[1] === 'karma' || SUBJECTS.some(x => x.key === parts[1]))) {
+    const key = parts[1];
+    const info = key === 'karma' ? {name: 'Karma ders denemesi', minutes: 60} : SUBJECTS.find(x => x.key === key);
+    renderExamStart(12, {builder: () => buildSubjectTest(key, Math.random, 10), label: info.name, title: info.name, backHref: '#/hazirlik', minutes: info.minutes});
+    return;
   }
   if (parts[0] === 'deneme' && DENEMELER[parts[1]]) {
     const kind = parts[1];
