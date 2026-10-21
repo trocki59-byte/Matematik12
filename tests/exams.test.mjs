@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {buildExam, gradeExam, EXAM_LENGTH, examTopicsFor} from '../docs/js/exams.js';
+import {buildExam, gradeExam, choicesFor, EXAM_LENGTH, CHOICE_COUNT, examTopicsFor} from '../docs/js/exams.js';
+import {generateQuestion} from '../docs/js/curriculum.js';
 import {createProgressStore} from '../docs/js/progress.js';
 import {topics} from '../docs/js/curriculum.js';
 
@@ -30,24 +31,29 @@ test('a new exam gets new questions', () => {
   assert.notEqual(a, b);
 });
 
-test('grading counts correct answers and reports empty and invalid ones', () => {
-  const exam = {questions: [
-    {topicId: 'x', topicName: 'x', question: {text: 'a', answer: 4, answerText: '4', steps: []}},
-    {topicId: 'x', topicName: 'x', question: {text: 'b', answer: 2, answerText: '2', steps: []}},
-    {topicId: 'x', topicName: 'x', question: {text: 'c', answer: 7, answerText: '7', steps: []}},
-  ]};
-  const r = gradeExam(exam, ['4', '', 'abc']);
-  assert.equal(r.score, 1);
-  assert.equal(r.total, 3);
-  assert.deepEqual(r.results.map(x => x.status), ['correct', 'empty', 'invalid']);
+test('every topic yields five distinct choices including the correct answer', () => {
+  for (const topic of topics) {
+    for (let seed = 1; seed <= 25; seed++) {
+      const rng = seeded(seed * 97 + topic.id.length);
+      const q = generateQuestion(topic.id, rng);
+      const {options, correctIndex} = choicesFor(q, rng);
+      assert.equal(options.length, CHOICE_COUNT, `${topic.id} seed ${seed}`);
+      assert.equal(new Set(options).size, CHOICE_COUNT, `${topic.id} duplicate options: ${options}`);
+      assert.equal(options[correctIndex], q.answerText, `${topic.id} correct index wrong`);
+    }
+  }
 });
 
-test('unsimplified fraction is not counted in an exam', () => {
+test('grading counts picked correct options and reports empty ones', () => {
   const exam = {questions: [
-    {topicId: 'x', topicName: 'x', question: {text: 'f', answer: 0.5, answerText: '1/2', steps: [], mustSimplify: true}},
+    {options: ['a', 'b', 'c', 'd', 'e'], correctIndex: 2},
+    {options: ['a', 'b', 'c', 'd', 'e'], correctIndex: 0},
+    {options: ['a', 'b', 'c', 'd', 'e'], correctIndex: 4},
   ]};
-  assert.equal(gradeExam(exam, ['2/4']).results[0].status, 'simplify');
-  assert.equal(gradeExam(exam, ['1/2']).score, 1);
+  const r = gradeExam(exam, [2, null, 1]);
+  assert.equal(r.score, 1);
+  assert.equal(r.total, 3);
+  assert.deepEqual(r.results.map(x => x.status), ['correct', 'empty', 'incorrect']);
 });
 
 function memoryStorage() {

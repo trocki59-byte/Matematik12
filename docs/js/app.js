@@ -1,7 +1,7 @@
 import {topics, lessonFor, generateQuestion} from './curriculum.js';
 import {createProgressStore} from './progress.js';
 import {createSession} from './session.js';
-import {EXAM_LENGTH, buildExam, gradeExam, examTopicsFor} from './exams.js';
+import {EXAM_LENGTH, LETTERS, buildExam, gradeExam, examTopicsFor} from './exams.js';
 import {createAuthStore, PIN_PATTERN} from './auth.js';
 
 // ---------- Yardımcılar ----------
@@ -296,17 +296,20 @@ function renderExamStart(grade) {
 function renderExamForm() {
   const {grade, exam} = examState;
   const title = h('h1', {id: 'page-title', text: `${grade}. sınıf sınavı`});
-  const inputs = [];
   const error = h('p', {class: 'input-error', role: 'alert'});
+  const groupName = i => `exam-q-${i}`;
 
-  const list = h('ol', {class: 'exam-list'}, exam.questions.map((item, i) => {
-    const input = h('input', {type: 'text', inputmode: 'decimal', autocomplete: 'off', placeholder: 'Cevap', 'aria-label': `${i + 1}. soru cevabı`});
-    inputs.push(input);
-    return h('li', {class: 'exam-item'},
-      h('p', {class: 'exam-topic', text: item.topicName}),
-      h('p', {class: 'exam-question', text: item.question.text}),
-      input);
-  }));
+  const list = h('ol', {class: 'exam-list'}, exam.questions.map((item, i) =>
+    h('li', {class: 'exam-item'},
+      h('fieldset', {class: 'exam-fieldset'},
+        h('legend', {class: 'exam-legend'},
+          h('span', {class: 'exam-topic', text: `${i + 1}. soru · ${item.topicName}`})),
+        h('p', {class: 'exam-question', text: item.question.text}),
+        h('div', {class: 'choices', role: 'radiogroup', 'aria-label': `${i + 1}. soru seçenekleri`},
+          item.options.map((opt, k) => h('label', {class: 'choice'},
+            h('input', {type: 'radio', name: groupName(i), value: String(k)}),
+            h('span', {class: 'choice-letter', 'aria-hidden': 'true', text: LETTERS[k]}),
+            h('span', {class: 'choice-text', text: opt}))))))));
 
   const form = h('form', {class: 'exam-form', novalidate: true},
     list, error,
@@ -316,8 +319,11 @@ function renderExamForm() {
 
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const answers = inputs.map(input => input.value);
-    const result = gradeExam(exam, answers);
+    const picks = exam.questions.map((_, i) => {
+      const checked = form.querySelector(`input[name="${groupName(i)}"]:checked`);
+      return checked ? Number(checked.value) : null;
+    });
+    const result = gradeExam(exam, picks);
     const entry = store.recordExam(grade, result.score, result.total);
     examState = {...examState, result, saved: Boolean(entry)};
     renderExamResult();
@@ -326,33 +332,36 @@ function renderExamForm() {
   app.replaceChildren(
     h('nav', {class: 'breadcrumb'}, h('a', {href: `#/sinav/${grade}`, text: `← ${grade}. sınıf sınavı`})),
     h('header', {class: 'grade-head'}, title,
-      h('p', {text: 'Cevaplarını yaz. Kesirleri en sade hâline getirerek yaz (örneğin 1/2).'})),
+      h('p', {text: 'Her soru için beş seçenekten birini seç. Bitirince sonucunu ve doğru cevapları görebilirsin.'})),
     form);
   setPage(`${grade}. Sınıf sınavı`, title);
 }
 
-const STATUS_TEXT = {
-  empty: 'Boş bırakıldı',
-  invalid: 'Geçersiz cevap',
-  simplify: 'Kesir sadeleştirilmemiş',
-  incorrect: 'Yanlış',
-  correct: 'Doğru',
-};
-
 function renderExamResult() {
-  const {grade, exam, result, saved} = examState;
+  const {grade, result, saved} = examState;
   const pct = Math.round((100 * result.score) / result.total);
   const title = h('h1', {id: 'page-title', text: `Sınav sonucu: ${result.score}/${result.total}`});
 
-  const items = result.results.map((r, i) => h('li', {class: `exam-result ${r.correct ? 'correct' : 'incorrect'}`},
-    h('p', {class: 'exam-topic', text: `${i + 1}. soru · ${r.topicName}`}),
-    h('p', {class: 'exam-question', text: r.question.text}),
-    h('p', {class: 'exam-verdict'},
-      h('strong', {text: r.correct ? '✓ Doğru' : `✗ ${STATUS_TEXT[r.status]}`}),
-      r.given ? h('span', {text: ` · Senin cevabın: ${r.given}`}) : null),
-    r.correct ? null : h('div', {class: 'feedback incorrect'},
-      h('strong', {text: `Doğru cevap: ${r.question.answerText}`}),
-      h('ol', {}, r.question.steps.map(step => h('li', {text: step}))))));
+  const items = result.results.map((r, i) => {
+    const verdict = r.correct
+      ? h('strong', {text: '✓ Doğru'})
+      : h('strong', {text: r.status === 'empty' ? '– Boş bırakıldı' : '✗ Yanlış'});
+    return h('li', {class: `exam-result ${r.correct ? 'correct' : 'incorrect'}`},
+      h('p', {class: 'exam-topic', text: `${i + 1}. soru · ${r.topicName}`}),
+      h('p', {class: 'exam-question', text: r.question.text}),
+      h('div', {class: 'choices review'},
+        r.options.map((opt, k) => h('div', {
+          class: `choice ${k === r.correctIndex ? 'is-correct' : ''} ${r.pick === k && k !== r.correctIndex ? 'is-wrong' : ''}`,
+        },
+          h('span', {class: 'choice-letter', 'aria-hidden': 'true', text: LETTERS[k]}),
+          h('span', {class: 'choice-text', text: opt}),
+          k === r.correctIndex ? h('span', {class: 'choice-mark', text: 'Doğru'}) : null,
+          r.pick === k && k !== r.correctIndex ? h('span', {class: 'choice-mark', text: 'Senin'}) : null))),
+      h('p', {class: 'exam-verdict'}, verdict),
+      r.correct ? null : h('div', {class: 'feedback incorrect'},
+        h('p', {class: 'steps-title', text: 'Çözüm adımları'}),
+        h('ol', {}, r.question.steps.map(step => h('li', {text: step})))));
+  });
 
   const retry = h('button', {class: 'primary-button', type: 'button', text: 'Yeni sınav çöz'});
   retry.addEventListener('click', () => renderExamStart(grade));
@@ -367,7 +376,6 @@ function renderExamResult() {
   setPage(`Sınav sonucu ${result.score}/${result.total}`, title);
 }
 
-
 // ---------- Giriş ve öğrenci hesabı ----------
 
 function renderUserSlot() {
@@ -380,8 +388,8 @@ function renderUserSlot() {
       h('span', {text: `${user.name} · ${user.grade}. sınıf`})),
     h('button', {class: 'ghost-button', type: 'button', text: 'Çıkış', onclick: () => {
       auth.logout();
-      renderUserSlot();
-      renderAuth('login');
+      location.hash = '#/giris';
+      route();
     }}));
 }
 

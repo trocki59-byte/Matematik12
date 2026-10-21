@@ -406,3 +406,34 @@ main:focus { outline: none; }
   .user-chip span:last-child { display: none; }
   .topbar-note { display: none; }
 }
+
+/* ---------- Çoktan seçmeli sınav ---------- */
+.exam-fieldset { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 10px; }
+.exam-legend { padding: 0; margin-bottom: 4px; }
+.choices { display: grid; gap: 8px; }
+.choice {
+  display: grid; grid-template-columns: auto auto 1fr; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: 14px; cursor: pointer; background: rgba(255, 255, 255, .03);
+  border: 1px solid var(--line); transition: border-color .2s, background .2s, transform .15s;
+}
+.choice:hover { border-color: var(--brand); background: rgba(124, 140, 255, .08); }
+.choice input { accent-color: var(--brand); width: 18px; height: 18px; margin: 0; }
+.choice:has(input:checked) { border-color: var(--brand); background: rgba(124, 140, 255, .14); }
+.choice-letter {
+  width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px;
+  background: var(--surface-strong); color: var(--muted); font-weight: 800; font-size: .9rem;
+}
+.choice-text { font-size: 1.02rem; }
+.choice-mark {
+  justify-self: end; font-size: .75rem; font-weight: 800; padding: 3px 9px; border-radius: 999px;
+  background: var(--surface-strong); color: var(--muted);
+}
+.choices.review .choice { cursor: default; }
+.choices.review .choice:hover { transform: none; }
+.choice.is-correct { border-color: color-mix(in srgb, var(--ok) 70%, transparent); background: var(--ok-bg); }
+.choice.is-correct .choice-letter { background: var(--ok); color: #06240f; }
+.choice.is-correct .choice-mark { background: var(--ok); color: #06240f; }
+.choice.is-wrong { border-color: color-mix(in srgb, var(--bad) 70%, transparent); background: var(--bad-bg); }
+.choice.is-wrong .choice-letter { background: var(--bad); color: #2a0610; }
+.choice.is-wrong .choice-mark { background: var(--bad); color: #2a0610; }
+@media (max-width: 480px) { .choice { padding: 10px 12px; } }

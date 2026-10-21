@@ -20,7 +20,7 @@ Konu başlıkları Milli Eğitim Bakanlığı ortaokul matematik öğretim progr
 
 ## Sınavlar
 
-Her sınıfın sayfasında bir sınav bölümü var. Sınav, sınıfın konularından karışık 10 soru içerir ve her seferinde sorular yeniden üretilir. Puanlar tarayıcıda (yerel depoda) tarih ve sınıfla birlikte saklanır; sınav geçmişi sınıf sayfasından görülebilir.
+Her sınıfın sayfasında bir sınav bölümü var. Sınav, sınıfın konularından karışık 10 soruluk beş şıklı çoktan seçmeli test. Her seferinde sorular ve şıklar yeniden üretilir. Puanlar tarayıcıda (yerel depoda) tarih ve sınıfla birlikte saklanır; sınav geçmişi sınıf sayfasından görülebilir.
 
 ## Giriş ve öğrenci hesabı
 
