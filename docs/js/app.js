@@ -1,29 +1,259 @@
-import {topics} from './curriculum.js';
+import {topics, lessonFor, generateQuestion} from './curriculum.js';
 import {createProgressStore} from './progress.js';
 import {createSession} from './session.js';
-const $=id=>document.getElementById(id);
-let storage;try{storage=window.localStorage;}catch{storage=null;}
-const store=createProgressStore(storage);
-let grade='1. Sınıf',session=null,activeTopic=null,answered=false,questionNumber=1;
-const symbols={top:'+',cik:'−',carpma:'×',bolme:'÷',sekil:'△',para:'₺',saat:'◷'};
-const palette=[['#edf3ff','#4774d7'],['#fff2e4','#b67d32'],['#edf7f3','#388775'],['#f2eeff','#8266bd']];
-function element(tag,cls,text){const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el;}
-function updateWarning(){$('storage-warning').hidden=store.isPersistent();}
-function renderDashboard(){
-  let total=0,correct=0;for(const topic of topics){const s=store.get(topic.id);total+=s.total;correct+=s.correct;}
-  $('summary-total').textContent=total;$('summary-correct').textContent=correct;$('summary-rate').textContent=total?`${Math.round(100*correct/total)}%`:'—';
-  $('grade-tabs').replaceChildren();
-  for(let n=1;n<=4;n++){const label=`${n}. Sınıf`,button=element('button','grade-tab',label);button.setAttribute('aria-pressed',String(grade===label));button.onclick=()=>{grade=label;renderDashboard();$('grade-tabs').querySelector('[aria-pressed=true]').focus({preventScroll:true});};$('grade-tabs').append(button);}
-  const filtered=topics.filter(t=>t.grade===grade);$('topic-count').textContent=`${filtered.length} keşfedilecek konu`;$('topics').replaceChildren();
-  filtered.forEach((topic,i)=>{const state=store.get(topic.id),rate=state.total?Math.round(100*state.correct/state.total):0;const card=element('button','topic-card'),top=element('div','topic-card-top'),symbol=element('span','topic-symbol',symbols[topic.id.split('-')[1]]||'+');symbol.style.background=palette[i%4][0];symbol.style.color=palette[i%4][1];symbol.setAttribute('aria-hidden','true');top.append(symbol,element('span','topic-index',`KONU ${String(i+1).padStart(2,'0')}`));const parts=topic.name.match(/^([^(:]+)(?::\s*|\s*\()(.*?)(?:\))?$/);const title=parts?parts[1].trim():topic.name,description=parts?parts[2]:'Birlikte pratik yapalım';const track=element('div','progress-track'),fill=element('div','progress-fill');fill.style.width=`${rate}%`;track.append(fill);const bottom=element('div','topic-bottom');bottom.append(element('span','',state.total?`${state.total} soru · %${rate} başarı`:'Keşfetmeye başla'),element('span','topic-arrow','→'));card.append(top,element('h3','',title),element('p','topic-description',description),track,bottom);card.onclick=()=>openTopic(topic);$('topics').append(card);});updateWarning();
+
+// ---------- Yardımcılar ----------
+
+const app = document.getElementById('app');
+const warning = document.getElementById('storage-warning');
+const GRADES = [1, 2, 3, 4, 5, 6, 7, 8];
+const GRADE_COLORS = {1: '#f0644f', 2: '#f29a1f', 3: '#22a88a', 4: '#2e8fe0', 5: '#7c6cf0', 6: '#e0559b', 7: '#14a9bd', 8: '#5a67d8'};
+
+let storage;
+try { storage = window.localStorage; } catch { storage = null; }
+const store = createProgressStore(storage);
+
+let session = null, sessionTopic = null, questionNo = 1;
+
+// Güvenli DOM oluşturma: tüm metinler textContent ile yazılır.
+function h(tag, props = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(props)) {
+    if (value === undefined || value === null || value === false) continue;
+    if (key === 'class') node.className = value;
+    else if (key === 'text') node.textContent = value;
+    else if (key === 'style') {
+      for (const [prop, val] of Object.entries(value)) {
+        if (prop.startsWith('--')) node.style.setProperty(prop, val);
+        else node.style[prop] = val;
+      }
+    }
+    else if (key.startsWith('on')) node.addEventListener(key.slice(2), value);
+    else node.setAttribute(key, value === true ? '' : String(value));
+  }
+  for (const child of children.flat()) {
+    if (child === undefined || child === null || child === false) continue;
+    node.append(child instanceof Node ? child : document.createTextNode(String(child)));
+  }
+  return node;
 }
-function renderStats(){const s=store.get(activeTopic.id);$('quiz-stats').replaceChildren();for(const [value,label] of [[s.correct,'Doğru'],[s.total,'Toplam'],[s.total?`${Math.round(s.correct*100/s.total)}%`:'—','Başarı']]){const el=element('div');el.append(element('strong','',String(value)),document.createTextNode(label));$('quiz-stats').append(el);}updateWarning();}
-function renderQuestion(){answered=false;$('question').textContent=session.current().text;$('question-number').textContent=`Soru ${questionNumber}`;$('answer').value='';$('answer').disabled=false;$('answer').removeAttribute('aria-invalid');$('input-error').textContent='';$('check-button').hidden=false;$('feedback').hidden=true;$('feedback').replaceChildren();$('next-button').hidden=true;renderStats();$('answer').focus();}
-function openTopic(topic){activeTopic=topic;session=createSession(topic.id,store);questionNumber=1;$('dashboard').hidden=true;$('quiz').hidden=false;$('quiz-grade').textContent=topic.grade;$('quiz-title').textContent=topic.name;renderQuestion();window.scrollTo({top:0,behavior:'instant'});}
-function goHome(){session=null;activeTopic=null;$('dashboard').hidden=false;$('quiz').hidden=true;renderDashboard();$('topics-heading').setAttribute('tabindex','-1');$('topics-heading').focus();}
-$('answer-form').onsubmit=e=>{e.preventDefault();if(!session||answered)return;const result=session.submit($('answer').value);if(result.status==='invalid'){$('input-error').textContent='Lütfen bir tam sayı yaz. Örneğin: 12';$('answer').setAttribute('aria-invalid','true');$('answer').focus();return;}answered=true;$('input-error').textContent='';$('answer').removeAttribute('aria-invalid');$('answer').disabled=true;$('check-button').hidden=true;const correct=result.status==='correct';$('feedback').className=`feedback ${correct?'correct':'incorrect'}`;$('feedback').hidden=false;$('feedback').append(element('strong','',correct?'✓ Harika, doğru cevap!':`Birlikte bakalım. Doğru cevap: ${result.question.answer}`));const steps=element('ol');for(const step of result.question.steps)steps.append(element('li','',step));$('feedback').append(steps);$('next-button').hidden=false;renderStats();$('next-button').focus();};
-$('next-button').onclick=()=>{if(session){session.next();questionNumber++;renderQuestion();}};
-$('back-button').onclick=goHome;$('home-link').onclick=goHome;
-$('start-button').onclick=()=>{$('topics-heading').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});$('grade-tabs').querySelector('[aria-pressed=true]').focus({preventScroll:true});};
-renderDashboard();
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+
+function summary() {
+  let total = 0, correct = 0;
+  for (const topic of topics) {
+    const s = store.get(topic.id);
+    total += s.total;
+    correct += s.correct;
+  }
+  return {total, correct, rate: total ? Math.round((100 * correct) / total) : null};
+}
+
+function rateOf(topicId) {
+  const s = store.get(topicId);
+  return {total: s.total, correct: s.correct, rate: s.total ? Math.round((100 * s.correct) / s.total) : 0};
+}
+
+function setPage(title, focusTarget) {
+  document.title = `${title} · Matematik 12`;
+  warning.hidden = store.isPersistent();
+  if (focusTarget) {
+    focusTarget.setAttribute('tabindex', '-1');
+    focusTarget.focus({preventScroll: false});
+  }
+}
+
+// ---------- Ana sayfa: sınıf seçimi ve üniteler ----------
+
+function topicCard(topic) {
+  const r = rateOf(topic.id);
+  const color = GRADE_COLORS[topic.grade];
+  return h('a', {class: 'topic-card', href: `#/konu/${topic.id}`, style: {'--accent': color}},
+    h('span', {class: 'topic-symbol', 'aria-hidden': 'true', text: topic.symbol}),
+    h('h3', {text: topic.name}),
+    h('p', {class: 'topic-summary', text: topic.summary}),
+    h('div', {class: 'progress', role: 'img', 'aria-label': r.total ? `%${r.rate} başarı` : 'Henüz başlanmadı'},
+      h('span', {style: {width: `${r.total ? r.rate : 0}%`}})),
+    h('div', {class: 'topic-foot'},
+      h('span', {text: r.total ? `${r.total} soru · %${r.rate} başarı` : 'Konu anlatımıyla başla'}),
+      h('span', {class: 'arrow', 'aria-hidden': 'true', text: '→'})));
+}
+
+function renderHome(grade) {
+  const gradeTopics = topics.filter(t => t.grade === grade);
+  const units = [];
+  for (const topic of gradeTopics) {
+    let unit = units.find(u => u.name === topic.unit);
+    if (!unit) units.push(unit = {name: topic.unit, topics: []});
+    unit.topics.push(topic);
+  }
+  const s = summary();
+  const title = h('h1', {id: 'page-title', text: `${grade}. Sınıf matematik`});
+
+  app.replaceChildren(
+    h('section', {class: 'hero'},
+      h('div', {class: 'hero-copy'},
+        h('p', {class: 'eyebrow', text: '1. – 8. SINIF · KONU ANLATIMI VE ALIŞTIRMA'}),
+        h('h2', {text: 'Anlayarak öğren, sonra pekiştir.'}),
+        h('p', {class: 'lead', text: 'Her konuda kısa anlatımı oku, adım adım çözülmüş örnekleri incele, ardından sorularla kendini sına.'}),
+        h('dl', {class: 'stats'},
+          h('div', {}, h('dt', {text: 'Çözülen soru'}), h('dd', {text: String(s.total)})),
+          h('div', {}, h('dt', {text: 'Doğru cevap'}), h('dd', {text: String(s.correct)})),
+          h('div', {}, h('dt', {text: 'Başarı'}), h('dd', {text: s.rate === null ? '—' : `%${s.rate}`})))),
+      h('div', {class: 'hero-art', 'aria-hidden': 'true'},
+        h('span', {class: 't1', text: '+'}), h('span', {class: 't2', text: '×'}),
+        h('span', {class: 't3', text: '÷'}), h('span', {class: 't4', text: '='}))),
+    h('nav', {class: 'grades', 'aria-label': 'Sınıf seçimi'},
+      GRADES.map(n => h('a', {
+        class: 'grade-chip', href: `#/sinif/${n}`, style: {'--accent': GRADE_COLORS[n]},
+        'aria-current': n === grade ? 'page' : undefined,
+      }, `${n}. sınıf`))),
+    h('div', {class: 'grade-head'}, title,
+      h('p', {text: `${gradeTopics.length} konu · ${units.length} ünite`})),
+    ...units.map(unit => h('section', {class: 'unit', 'aria-labelledby': `unit-${grade}-${units.indexOf(unit)}`},
+      h('h2', {id: `unit-${grade}-${units.indexOf(unit)}`, text: unit.name}),
+      h('div', {class: 'cards'}, unit.topics.map(topicCard)))),
+    h('p', {class: 'footnote', text: 'Hata yapmak öğrenmenin parçasıdır. Her yanlış cevabın yanında çözüm adımları var.'}));
+
+  setPage(`${grade}. Sınıf`, title);
+}
+
+// ---------- Konu sayfası: anlatım ve alıştırma ----------
+
+function renderLesson(topic) {
+  const lesson = lessonFor(topic.id);
+  const article = h('article', {class: 'lesson'}, h('p', {class: 'lesson-intro', text: lesson.intro}));
+  lesson.sections.forEach(section => {
+    const block = h('section', {class: 'lesson-section'}, h('h2', {text: section.title}));
+    section.paras.forEach(p => block.append(h('p', {text: p})));
+    if (section.formula) block.append(h('div', {class: 'formula', text: section.formula}));
+    (section.examples || []).forEach((ex, i) => block.append(
+      h('div', {class: 'example'},
+        h('p', {class: 'example-title', text: `Örnek ${i + 1}`}),
+        h('p', {class: 'example-problem', text: ex.problem}),
+        h('ol', {class: 'example-steps'}, ex.steps.map(step => h('li', {text: step}))),
+        h('p', {class: 'example-answer'}, 'Cevap: ', h('strong', {text: ex.answer})))));
+    if (section.tip) block.append(h('aside', {class: 'tip'}, h('strong', {text: '✦ İpucu: '}), section.tip));
+    article.append(block);
+  });
+  article.append(h('a', {class: 'primary-link', href: `#/konu/${topic.id}/alistirma`, text: 'Bu konuda alıştırma yap →'}));
+  return article;
+}
+
+function renderPractice(topic) {
+  if (!session || sessionTopic !== topic.id) {
+    session = createSession(topic.id, store);
+    sessionTopic = topic.id;
+    questionNo = 1;
+  }
+  const question = session.current();
+  const r = rateOf(topic.id);
+
+  const input = h('input', {id: 'answer', type: 'text', inputmode: 'decimal', autocomplete: 'off', placeholder: 'Cevabını yaz', 'aria-describedby': 'answer-error'});
+  const error = h('p', {id: 'answer-error', class: 'input-error', role: 'alert'});
+  const check = h('button', {class: 'primary-button', type: 'submit', text: 'Cevabımı kontrol et'});
+  const feedback = h('div', {class: 'feedback', role: 'status', hidden: true});
+  const next = h('button', {class: 'primary-button', type: 'button', hidden: true, text: 'Sonraki soru →'});
+  const form = h('form', {class: 'answer-form', novalidate: true}, h('label', {for: 'answer', text: 'Sence cevap kaç?'}), input, error, check);
+
+  let answered = false;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (answered) return;
+    const result = session.submit(input.value);
+    if (result.status === 'invalid') {
+      error.textContent = 'Bir sayı yaz. Örneğin: 12, −3, 2,5 ya da 3/4';
+      input.setAttribute('aria-invalid', 'true');
+      input.focus();
+      return;
+    }
+    if (result.status === 'simplify') {
+      error.textContent = 'Kesri en sade hâline getirmeyi dene.';
+      input.setAttribute('aria-invalid', 'true');
+      input.focus();
+      return;
+    }
+    answered = true;
+    input.disabled = true;
+    input.removeAttribute('aria-invalid');
+    error.textContent = '';
+    check.hidden = true;
+    const correct = result.status === 'correct';
+    feedback.className = `feedback ${correct ? 'correct' : 'incorrect'}`;
+    feedback.hidden = false;
+    feedback.replaceChildren(
+      h('strong', {text: correct ? '✓ Harika, doğru cevap!' : `Birlikte bakalım. Doğru cevap: ${question.answerText}`}),
+      h('p', {class: 'steps-title', text: 'Çözüm adımları'}),
+      h('ol', {}, question.steps.map(step => h('li', {text: step}))));
+    next.hidden = false;
+    const s = store.get(topic.id);
+    stats.replaceChildren(...statChips(s));
+    next.focus();
+  });
+
+  // Sonraki soruda yalnızca alıştırma paneli değişir; sayfa yukarı kaydırılmaz.
+  next.addEventListener('click', () => {
+    session.next();
+    questionNo++;
+    const fresh = renderPractice(topic);
+    panel.replaceWith(fresh);
+    fresh.querySelector('#answer').focus({preventScroll: true});
+  });
+
+  const stats = h('div', {class: 'chips'}, statChips(store.get(topic.id)));
+  const panel = h('section', {class: 'practice'},
+    h('div', {class: 'practice-head'},
+      h('p', {class: 'eyebrow', text: `ALIŞTIRMA · SORU ${questionNo}`}),
+      stats),
+    h('p', {class: 'question', text: question.text}),
+    form,
+    feedback,
+    next,
+    h('p', {class: 'practice-foot', text: `Başarı: ${r.total ? `%${r.rate}` : 'henüz yok'} · İlerlemen bu tarayıcıda saklanır.`}));
+  return panel;
+}
+
+function statChips(s) {
+  return [
+    h('span', {class: 'chip'}, h('strong', {text: String(s.correct)}), ' doğru'),
+    h('span', {class: 'chip'}, h('strong', {text: String(s.total)}), ' toplam'),
+    h('span', {class: 'chip'}, h('strong', {text: s.total ? `%${Math.round((100 * s.correct) / s.total)}` : '—'}), ' başarı'),
+  ];
+}
+
+function renderTopic(topic, tab) {
+  const isPractice = tab === 'alistirma';
+  const title = h('h1', {id: 'page-title', text: topic.name});
+  const tabs = h('nav', {class: 'tabs', 'aria-label': 'Konu bölümleri'},
+    h('a', {href: `#/konu/${topic.id}`, 'aria-current': isPractice ? undefined : 'page', text: 'Konu anlatımı'}),
+    h('a', {href: `#/konu/${topic.id}/alistirma`, 'aria-current': isPractice ? 'page' : undefined, text: 'Alıştırma'}));
+
+  app.replaceChildren(
+    h('a', {class: 'back', href: `#/sinif/${topic.grade}`, text: `← ${topic.grade}. sınıf konuları`}),
+    h('header', {class: 'topic-head', style: {'--accent': GRADE_COLORS[topic.grade]}},
+      h('p', {class: 'eyebrow', text: `${topic.grade}. SINIF · ${topic.unit.toLocaleUpperCase('tr')}`}),
+      title,
+      h('p', {class: 'lead', text: topic.summary})),
+    tabs,
+    isPractice ? renderPractice(topic) : renderLesson(topic));
+
+  setPage(topic.name, title);
+}
+
+// ---------- Yönlendirme ----------
+
+function route() {
+  const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  if (parts[0] === 'konu' && parts[1]) {
+    const topic = topics.find(t => t.id === parts[1]);
+    if (topic) {
+      renderTopic(topic, parts[2] === 'alistirma' ? 'alistirma' : 'anlatim');
+      return;
+    }
+  }
+  const grade = parts[0] === 'sinif' ? Number(parts[1]) : 1;
+  renderHome(GRADES.includes(grade) ? grade : 1);
+}
+
+window.addEventListener('hashchange', route);
+route();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
