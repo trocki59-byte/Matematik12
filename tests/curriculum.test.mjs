@@ -100,3 +100,13 @@ test('grade 8 median uses the middle value of seven sorted numbers',()=>{
     assert.equal(q.answer,sorted[3]);
   }
 });
+
+test('every grade 8 topic has an extra worked-example section with three examples',()=>{
+  for(const topic of topics.filter(t=>t.grade===8)) {
+    const lesson=lessonFor(topic.id);
+    const extra=lesson.sections.find(s=>s.title==='Daha fazla örnek');
+    assert.ok(extra,`${topic.id} missing extra examples`);
+    assert.equal(extra.examples.length,3,`${topic.id} needs 3 extra examples`);
+    for(const ex of extra.examples) assert.ok(ex.steps.length>=2&&ex.answer,`${topic.id} example incomplete`);
+  }
+});
