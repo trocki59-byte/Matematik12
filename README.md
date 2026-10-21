@@ -18,6 +18,10 @@
 
 Konu başlıkları Milli Eğitim Bakanlığı ortaokul matematik öğretim programındaki öğrenme alanlarına göre düzenlenmiştir. Kazanım ayrıntıları için güncel MEB programını esas alın.
 
+## Sınavlar
+
+Her sınıfın sayfasında bir sınav bölümü var. Sınav, sınıfın konularından karışık 10 soru içerir ve her seferinde sorular yeniden üretilir. Puanlar tarayıcıda (yerel depoda) tarih ve sınıfla birlikte saklanır; sınav geçmişi sınıf sayfasından görülebilir.
+
 ## Yerel çalıştırma
 
 Node.js 24 veya üzeri ile bağımlılık kurulumu gerektirmeden:
