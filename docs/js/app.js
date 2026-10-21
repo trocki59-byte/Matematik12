@@ -6,8 +6,8 @@ import {createSession} from './session.js';
 
 const app = document.getElementById('app');
 const warning = document.getElementById('storage-warning');
-const GRADES = [1, 2, 3, 4, 5, 6, 7, 8];
-const GRADE_COLORS = {1: '#f0644f', 2: '#f29a1f', 3: '#22a88a', 4: '#2e8fe0', 5: '#7c6cf0', 6: '#e0559b', 7: '#14a9bd', 8: '#5a67d8'};
+const GRADES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const GRADE_COLORS = {1: '#f0644f', 2: '#f29a1f', 3: '#22a88a', 4: '#2e8fe0', 5: '#7c6cf0', 6: '#e0559b', 7: '#14a9bd', 8: '#5a67d8', 9: '#e8703a', 10: '#16a34a', 11: '#0ea5e9', 12: '#a855f7'};
 
 let storage;
 try { storage = window.localStorage; } catch { storage = null; }
@@ -92,7 +92,7 @@ function renderHome(grade) {
   app.replaceChildren(
     h('section', {class: 'hero'},
       h('div', {class: 'hero-copy'},
-        h('p', {class: 'eyebrow', text: '1. – 8. SINIF · KONU ANLATIMI VE ALIŞTIRMA'}),
+        h('p', {class: 'eyebrow', text: '1. – 12. SINIF · KONU ANLATIMI VE ALIŞTIRMA'}),
         h('h2', {text: 'Anlayarak öğren, sonra pekiştir.'}),
         h('p', {class: 'lead', text: 'Her konuda kısa anlatımı oku, adım adım çözülmüş örnekleri incele, ardından sorularla kendini sına.'}),
         h('dl', {class: 'stats'},

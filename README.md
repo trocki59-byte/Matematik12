@@ -1,6 +1,6 @@
 # Matematik 12
 
-1–8. sınıflar için Türkçe matematik öğretimi: her konuda **konu anlatımı**, adım adım çözülmüş **örnekler** ve bol **alıştırma**. Web sürümü tarayıcıda çalışır, üyelik gerektirmez.
+1–12. sınıflar için Türkçe matematik öğretimi: her konuda **konu anlatımı**, adım adım çözülmüş **örnekler** ve bol **alıştırma**. Web sürümü tarayıcıda çalışır, üyelik gerektirmez.
 
 ## Kapsam
 
@@ -11,6 +11,10 @@
 | 6 | Tam sayılar, kesirlerle çarpma–bölme, ondalık çarpma, oran–orantı, yüzde, cebirsel ifade, çokgenlerin iç açıları |
 | 7 | Birinci dereceden denklemler, yüzde artış–azalış, dağılma, çemberin çevresi, prizmanın hacmi, olasılık, aritmetik ortalama |
 | 8 | Üslü ifadeler, karekök, özdeşlikler, doğrunun eğimi, Pisagor, öteleme–yansıma, medyan |
+| 9 | Kümeler, mantık, mutlak değer, eşitsizlikler, üçgende açılar, köklü sayılar, veri analizi |
+| 10 | Fonksiyonlar, ikinci dereceden denklemler ve Vieta, permütasyon–kombinasyon, çember, zar olasılığı |
+| 11 | Trigonometri, logaritma, aritmetik ve geometrik diziler, parabol, polinomlarda kalan teoremi |
+| 12 | Limit, türev ve kritik noktalar, belirli integral, analitik geometri, 2×2 determinant |
 
 Konu başlıkları Milli Eğitim Bakanlığı ortaokul matematik öğretim programındaki öğrenme alanlarına göre düzenlenmiştir. Kazanım ayrıntıları için güncel MEB programını esas alın.
 
