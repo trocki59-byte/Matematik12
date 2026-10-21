@@ -22,6 +22,10 @@ Konu başlıkları Milli Eğitim Bakanlığı ortaokul matematik öğretim progr
 
 Her sınıfın sayfasında bir sınav bölümü var. Sınav, sınıfın konularından karışık 10 soru içerir ve her seferinde sorular yeniden üretilir. Puanlar tarayıcıda (yerel depoda) tarih ve sınıfla birlikte saklanır; sınav geçmişi sınıf sayfasından görülebilir.
 
+## Giriş ve öğrenci hesabı
+
+Uygulama **TROÇKİ STUDİO · Matematik Öğreniyorum** giriş ekranıyla açılır. Öğrenci adını, sınıfını ve 4 rakamlı şifresini girerek hesap oluşturur; sonra aynı bilgilerle giriş yapar. Hesaplar bu tarayıcıda saklanır, şifre düz metin olarak tutulmaz (tuzlanmış SHA-256 özeti). Bu yerel bir giriştir; sunucu tabanlı değildir.
+
 ## Yerel çalıştırma
 
 Node.js 24 veya üzeri ile bağımlılık kurulumu gerektirmeden:

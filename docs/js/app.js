@@ -2,6 +2,7 @@ import {topics, lessonFor, generateQuestion} from './curriculum.js';
 import {createProgressStore} from './progress.js';
 import {createSession} from './session.js';
 import {EXAM_LENGTH, buildExam, gradeExam, examTopicsFor} from './exams.js';
+import {createAuthStore, PIN_PATTERN} from './auth.js';
 
 // ---------- Yardımcılar ----------
 
@@ -13,6 +14,8 @@ const GRADE_COLORS = {1: '#f0644f', 2: '#f29a1f', 3: '#22a88a', 4: '#2e8fe0', 5:
 let storage;
 try { storage = window.localStorage; } catch { storage = null; }
 const store = createProgressStore(storage);
+const auth = createAuthStore(storage);
+const userSlot = document.getElementById('user-slot');
 
 let session = null, sessionTopic = null, questionNo = 1;
 
@@ -364,9 +367,94 @@ function renderExamResult() {
   setPage(`Sınav sonucu ${result.score}/${result.total}`, title);
 }
 
+
+// ---------- Giriş ve öğrenci hesabı ----------
+
+function renderUserSlot() {
+  const user = auth.current();
+  userSlot.replaceChildren();
+  if (!user) return;
+  userSlot.append(
+    h('span', {class: 'user-chip'},
+      h('span', {class: 'user-avatar', 'aria-hidden': 'true', text: user.name.charAt(0).toLocaleUpperCase('tr-TR')}),
+      h('span', {text: `${user.name} · ${user.grade}. sınıf`})),
+    h('button', {class: 'ghost-button', type: 'button', text: 'Çıkış', onclick: () => {
+      auth.logout();
+      renderUserSlot();
+      renderAuth('login');
+    }}));
+}
+
+function renderAuth(mode = 'login') {
+  const isSignup = mode === 'signup';
+  const title = h('h1', {id: 'page-title', class: 'auth-title', tabindex: '-1', text: 'Hoş geldin'});
+  const error = h('p', {class: 'input-error', role: 'alert'});
+  const nameInput = h('input', {id: 'auth-name', type: 'text', autocomplete: 'name', maxlength: 40, required: true, placeholder: 'Adın soyadın'});
+  const pinInput = h('input', {id: 'auth-pin', type: 'password', inputmode: 'numeric', autocomplete: isSignup ? 'new-password' : 'current-password', maxlength: 4, pattern: '[0-9]{4}', required: true, placeholder: '4 rakam'});
+  const gradeSelect = h('select', {id: 'auth-grade', 'aria-label': 'Sınıf'},
+    GRADES.map(n => h('option', {value: String(n), text: `${n}. sınıf`})));
+
+  const submit = h('button', {class: 'primary-button auth-submit', type: 'submit', text: isSignup ? 'Hesap oluştur ve başla' : 'Giriş yap'});
+  const form = h('form', {class: 'auth-form', novalidate: true},
+    h('label', {for: 'auth-name', text: 'Ad soyad'}), nameInput,
+    isSignup ? h('label', {for: 'auth-grade', text: 'Sınıf'}) : null,
+    isSignup ? gradeSelect : null,
+    h('label', {for: 'auth-pin', text: 'Şifre (4 rakam)'}), pinInput,
+    error, submit);
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    error.textContent = '';
+    const name = nameInput.value;
+    const pin = pinInput.value;
+    if (!PIN_PATTERN.test(pin)) { error.textContent = 'Şifre 4 rakamdan oluşmalı.'; pinInput.focus(); return; }
+    submit.disabled = true;
+    try {
+      const user = isSignup
+        ? await auth.signup({name, grade: Number(gradeSelect.value), pin})
+        : await auth.login({name, pin});
+      renderUserSlot();
+      location.hash = `#/sinif/${user.grade}`;
+      route();
+    } catch (err) {
+      error.textContent = err.message;
+      submit.disabled = false;
+    }
+  });
+
+  const tab = (id, label, active) => h('a', {
+    class: `auth-tab${active ? ' active' : ''}`, href: id === 'login' ? '#/giris' : '#/kayit',
+    role: 'tab', 'aria-selected': String(active), text: label,
+  });
+
+  app.replaceChildren(
+    h('section', {class: 'auth', 'aria-labelledby': 'page-title'},
+      h('div', {class: 'auth-card'},
+        h('div', {class: 'auth-brand'},
+          h('span', {class: 'brand-mark', 'aria-hidden': 'true', text: '∑'}),
+          h('p', {class: 'auth-studio', text: 'TROÇKİ STUDİO'}),
+          h('p', {class: 'auth-sub', text: 'Matematik Öğreniyorum'})),
+        h('div', {class: 'auth-tabs', role: 'tablist'}, tab('login', 'Giriş yap', !isSignup), tab('signup', 'Yeni hesap', isSignup)),
+        title,
+        h('p', {class: 'auth-lead', text: isSignup ? 'Bilgilerini gir, sınıfını seç ve öğrenmeye başla.' : 'Kayıtlı adınla ve şifrenle devam et.'}),
+        form,
+        h('p', {class: 'auth-foot', text: 'Hesabın bu tarayıcıda saklanır. Ücretsizdir, e-posta gerekmez.'}))));
+
+  document.title = `${isSignup ? 'Yeni hesap' : 'Giriş'} · TROÇKİ STUDİO`;
+  warning.hidden = store.isPersistent();
+  title.focus({preventScroll: true});
+  nameInput.focus({preventScroll: true});
+}
+
 // ---------- Yönlendirme ----------
 
 function route() {
+  if (!auth.current()) {
+    renderUserSlot();
+    renderAuth(location.hash === '#/kayit' ? 'signup' : 'login');
+    return;
+  }
+  renderUserSlot();
   const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   if (parts[0] === 'konu' && parts[1]) {
     const topic = topics.find(t => t.id === parts[1]);
