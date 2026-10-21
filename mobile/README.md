@@ -1,30 +1,30 @@
 # Matematik 12 — .NET MAUI (Android)
 
-Web sürümünün (docs/) Android uygulaması. Hedef: `net8.0-android`, APK çıktısı.
+Web sürümünün (docs/) Android uygulaması. Hedef: `net10.0-android`, APK çıktısı.
 
 Bu klasör kaynak kodudur; APK'yı bir Android SDK'lı bilgisayarda derlenir.
 
 ## Gereksinimler (Windows, macOS veya Linux)
 
-1. .NET 8 SDK — https://dotnet.microsoft.com/download/dotnet/8.0
+1. .NET 10 SDK (Visual Studio 2026 ile birlikte gelir) — https://dotnet.microsoft.com/download
 2. MAUI Android iş yükü:
    ```
    dotnet workload install maui-android
    ```
-3. Android SDK (Visual Studio "Mobile development with .NET" veya komut satırı ile).
+3. Android SDK (Visual Studio Installer → ".NET Multi-platform App UI development" iş yükü veya komut satırı ile).
    Java 17 gerekir.
 
 ## APK üretmek
 
 ```
 cd mobile/Matematik12.Mobile
-dotnet publish -f net8.0-android -c Release
+dotnet publish -f net10.0-android -c Release
 ```
 
-Çıktı: `bin/Release/net8.0-android/com.trocki.matematik12-Signed.apk`
+Çıktı: `bin/Release/net10.0-android/com.trocki.matematik12-Signed.apk`
 (Yayın için imzalı APK/AAB üretmek için `-p:AndroidKeyStore=true` ve anahtar bilgileri gerekir.)
 
-Telefona yüklemek için `dotnet build -t:Run -f net8.0-android` ile bağlı cihaza doğrudan kurabilirsin.
+Telefona yüklemek için `dotnet build -t:Run -f net10.0-android` ile bağlı cihaza doğrudan kurabilirsin.
 
 ## Yapılanlar
 
