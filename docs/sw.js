@@ -1,6 +1,6 @@
-const CACHE = 'matematik12-v10';
+const CACHE = 'matematik12-v11';
 const FILES = [
-  './', './index.html', './styles.css', './manifest.webmanifest', './icon-v2.svg',
+  './', './index.html', './styles.css', './manifest.webmanifest', './icon-v3.svg',
   './js/app.js', './js/answers.js', './js/curriculum.js', './js/progress.js', './js/session.js', './js/steps.js', './js/exams.js', './js/auth.js', './js/version.js',
   './js/topics/grades-1-4.js', './js/topics/grade-5.js', './js/topics/grade-6.js', './js/topics/grade-7.js', './js/topics/grade-8.js',
   './js/topics/grade-9.js', './js/topics/grade-10.js', './js/topics/grade-11.js', './js/topics/grade-12.js',
