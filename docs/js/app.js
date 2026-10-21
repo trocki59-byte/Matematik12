@@ -3,6 +3,7 @@ import {createProgressStore} from './progress.js';
 import {createSession} from './session.js';
 import {EXAM_LENGTH, LETTERS, buildExam, gradeExam, examTopicsFor} from './exams.js';
 import {createAuthStore, PIN_PATTERN} from './auth.js';
+import {VERSION} from './version.js';
 
 // ---------- Yardımcılar ----------
 
@@ -483,4 +484,80 @@ function route() {
 
 window.addEventListener('hashchange', route);
 route();
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
+// ---------- Güncelleme kontrolü ----------
+
+const updateButton = document.getElementById('update-check');
+const updateStatus = document.getElementById('update-status');
+const versionNote = document.getElementById('version-note');
+if (versionNote) versionNote.textContent = `Sürüm ${VERSION}`;
+
+let registration = null;
+// Sayfa zaten bir servis çalışanı tarafından yönetiliyorsa, yeni sürüm devreye girince yeniden yükle.
+const hadController = 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller);
+let reloading = false;
+
+function setUpdateStatus(text) { if (updateStatus) updateStatus.textContent = text; }
+
+function showUpdateBanner(reg) {
+  if (document.querySelector('.update-banner')) return;
+  const apply = h('button', {class: 'primary-button update-apply', type: 'button', text: 'Güncelle'});
+  apply.addEventListener('click', () => reg.waiting?.postMessage('SKIP_WAITING'));
+  document.body.append(h('div', {class: 'update-banner', role: 'status'},
+    h('span', {text: 'Yeni bir sürüm hazır.'}), apply));
+}
+
+function watchRegistration(reg) {
+  if (reg.waiting && hadController) showUpdateBanner(reg);
+  reg.addEventListener('updatefound', () => {
+    const worker = reg.installing;
+    worker?.addEventListener('statechange', () => {
+      if (worker.state === 'installed' && hadController) showUpdateBanner(reg);
+    });
+  });
+}
+
+function finishCheck() {
+  if (registration.waiting && hadController) {
+    showUpdateBanner(registration);
+    setUpdateStatus('Yeni sürüm hazır.');
+  } else if (!registration.installing) {
+    setUpdateStatus(`Güncelsin · sürüm ${VERSION}`);
+  }
+  if (updateButton) updateButton.disabled = false;
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController || reloading) return;
+    reloading = true;
+    location.reload();
+  });
+  navigator.serviceWorker.register('./sw.js')
+    .then(reg => { registration = reg; watchRegistration(reg); })
+    .catch(() => {});
+}
+
+updateButton?.addEventListener('click', async () => {
+  if (!registration) {
+    setUpdateStatus('Bu tarayıcıda güncelleme denetimi kullanılamıyor. Sayfayı yenilemeyi dene.');
+    return;
+  }
+  updateButton.disabled = true;
+  setUpdateStatus('Kontrol ediliyor…');
+  try {
+    await registration.update();
+  } catch {
+    setUpdateStatus('Kontrol edilemedi. Bağlantını kontrol et.');
+    updateButton.disabled = false;
+    return;
+  }
+  if (registration.installing) {
+    const worker = registration.installing;
+    setUpdateStatus('Yeni sürüm indiriliyor…');
+    worker.addEventListener('statechange', () => {
+      if (worker.state === 'installed' || worker.state === 'redundant') finishCheck();
+    });
+  } else {
+    finishCheck();
+  }
+});

@@ -437,3 +437,18 @@ main:focus { outline: none; }
 .choice.is-wrong .choice-letter { background: var(--bad); color: #2a0610; }
 .choice.is-wrong .choice-mark { background: var(--bad); color: #2a0610; }
 @media (max-width: 480px) { .choice { padding: 10px 12px; } }
+/* ---------- Güncelleme ---------- */
+.update-row { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 10px; justify-content: center; }
+.link-button {
+  background: none; border: 0; padding: 0; color: var(--brand); cursor: pointer; font-weight: 700; text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.link-button[disabled] { color: var(--muted); cursor: default; text-decoration: none; }
+.update-banner {
+  position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 20;
+  display: flex; align-items: center; gap: 14px; padding: 12px 14px 12px 20px; border-radius: 18px;
+  background: var(--surface-strong); border: 1px solid var(--brand);
+  box-shadow: 0 20px 50px -18px rgba(0, 0, 0, .8), 0 0 0 4px rgba(124, 140, 255, .15);
+  width: max-content; max-width: calc(100% - 32px);
+}
+.update-banner .update-apply { padding: 10px 16px; }
