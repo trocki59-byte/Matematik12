@@ -304,3 +304,44 @@ main:focus { outline: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* ---------- Sınavlar ---------- */
+.exam-banner {
+  display: flex; align-items: center; gap: 14px; margin: 0 0 24px; padding: 16px 20px;
+  border-radius: 18px; text-decoration: none; color: var(--ink);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  transition: transform .2s, box-shadow .2s;
+}
+.exam-banner:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -16px var(--accent); }
+.exam-banner-icon {
+  width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px;
+  background: var(--accent); color: #fff; font-size: 1.2rem; flex: none;
+}
+.exam-banner-text { display: grid; gap: 2px; flex: 1; }
+.exam-banner-text span { color: var(--muted); font-size: .92rem; }
+.exam-card, .exam-form, .exam-list { display: grid; gap: 14px; }
+.exam-card {
+  margin-bottom: 20px; padding: 20px; border-radius: 18px;
+  background: var(--surface); border: 1px solid var(--line, rgba(255,255,255,.08));
+}
+.exam-card h2 { margin: 0 0 6px; font-size: 1.1rem; }
+.exam-history { margin: 0; padding-left: 20px; display: grid; gap: 8px; color: var(--muted); }
+.exam-history strong { color: var(--ink); }
+.exam-list { list-style: none; padding: 0; margin: 0; }
+.exam-item, .exam-result {
+  padding: 16px 18px; border-radius: 16px; background: var(--surface);
+  border: 1px solid var(--line, rgba(255,255,255,.08));
+}
+.exam-result.correct { border-color: color-mix(in srgb, var(--ok) 50%, transparent); }
+.exam-result.incorrect { border-color: color-mix(in srgb, var(--bad) 50%, transparent); }
+.exam-topic { margin: 0 0 4px; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.exam-question { margin: 0 0 10px; font-size: 1.05rem; }
+.exam-item input {
+  width: 100%; padding: 12px 14px; border-radius: 12px; font-size: 1rem;
+  background: var(--bg-2); color: var(--ink); border: 1px solid var(--line, rgba(255,255,255,.12));
+}
+.exam-verdict { margin: 0 0 8px; }
+.exam-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 8px; }
+.ghost-link { color: var(--muted); }
+.muted { color: var(--muted); }
