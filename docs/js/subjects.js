@@ -1,5 +1,6 @@
 import {choicesFor} from './exams.js';
 import {buildDeneme} from './deneme.js';
+import {topics, generateQuestion} from './curriculum.js';
 import {rndFrom} from './steps.js';
 
 // Ders denemeleri. Fizik ve Kimya şablonlarla sonsuz soru üretir; diğer dersler elle yazılmış
@@ -93,6 +94,14 @@ const BANK = {
     {t: 'Anlam', q: '"Gözü pek" deyiminin anlamı aşağıdakilerden hangisidir?', o: ['Çok korkak', 'Cesur ve atılgan', 'Dikkatli', 'Meraklı'], a: 1, s: ['Gözü pek: korkmayan, cesur.']},
     {t: 'Sözcükte anlam', q: 'Aşağıdaki sözcük çiftlerinden hangisi eş anlamlıdır?', o: ['mutlu - sevinçli', 'soğuk - sıcak', 'büyük - küçük', 'uzun - kısa'], a: 0, s: ['Mutlu ve sevinçli aynı anlama yakındır.']},
     {t: 'Sözcükte anlam', q: 'Aşağıdaki sözcük çiftlerinden hangisi zıt anlamlıdır?', o: ['ince - kalın', 'sevgi - aşk', 'dost - arkadaş', 'güzel - hoş'], a: 0, s: ['İnce ve kalın zıt anlamlıdır.']},
+    {t: 'Noktalama', q: 'Aşağıdaki cümlelerin hangisinde virgül yanlış kullanılmıştır?', o: ['Ali, Ayşe ve Can geldi.', 'Okula, erken gittim.', 'Gel, bunu da al.', 'Anne, yemek hazır.'], a: 1, s: ['Özne ile yüklem arasına virgül konmaz.']},
+    {t: 'Fiilimsi', q: '"Koşarak gelen çocuk yoruldu." cümlesindeki "koşarak" sözcüğü nedir?', o: ['İsim', 'Fiilimsi (zarf-fiil)', 'Sıfat', 'Fiil'], a: 1, s: ['-arak eki fiile eklenerek fiilimsi (zarf-fiil) yapar.']},
+    {t: 'Cümlenin ögeleri', q: '"Dün akşam kitap okudum." cümlesinde yüklem hangisidir?', o: ['Dün', 'akşam', 'kitap', 'okudum'], a: 3, s: ['Yüklem, cümlede işi bildiren sözcüktür: okudum.']},
+    {t: 'Cümle türleri', q: '"Ah, ne kadar güzel bir gün!" cümlesi hangi türdendir?', o: ['Soru cümlesi', 'Ünlem cümlesi', 'Emir cümlesi', 'Dilek cümlesi'], a: 1, s: ['Duygu bildiren ve ünlemle biten cümle ünlem cümlesidir.']},
+    {t: 'Cümle türleri', q: '"Yarın gelecek misin?" cümlesi hangi türdendir?', o: ['Soru cümlesi', 'Emir cümlesi', 'Ünlem cümlesi', 'Ad cümlesi'], a: 0, s: ['Soru eki "mi" ile kurulan cümle soru cümlesidir.']},
+    {t: 'Cümle türleri', q: '"Bugün dışarı çıkmadım." cümlesi hangi türdendir?', o: ['Olumlu cümle', 'Olumsuz cümle', 'Soru cümlesi', 'Emir cümlesi'], a: 1, s: ['"-ma" olumsuzluk ekiyle kurulan cümle olumsuzdur.']},
+    {t: 'Metin türleri', q: 'Bir olayı yazarın kendi bakış açısıyla anlatan metin türü hangisidir?', o: ['Makale', 'Anı', 'Deneme', 'Haber'], a: 1, s: ['Anı, yazarın yaşadıklarını kişisel bakışla anlatır.']},
+    {t: 'Deyimler', q: '"Yüreği yanmak" deyiminin anlamı nedir?', o: ['Üzülmek', 'Heyecanlanmak', 'Öfkelenmek', 'Yorulmak'], a: 0, s: ['Yüreği yanmak: çok üzülmek.']},
     {t: 'Dil bilgisi', q: 'Aşağıdaki cümlelerin hangisinde "de" bağlacı kullanılmıştır?', o: ['Sen de geldin.', 'Kitapta yazıyor.', 'Evde kaldık.', 'Bahçede oynadık.'], a: 0, s: ['Bağlaç olan "de" ayrı yazılır ve "ayrıca" anlamı taşır.']},
     {t: 'Sözcük türleri', q: '"Hızlı koştu" cümlesinde "hızlı" sözcüğü hangi türdendir?', o: ['Sıfat', 'Zarf', 'İsim', 'Fiil'], a: 1, s: ['Hızlı, koşma fiilinin nasıl yapıldığını belirtir: zarf.']},
     {t: 'Atasözleri', q: 'Aşağıdakilerden hangisi bir atasözüdür?', o: ['Damlaya damlaya göl olur.', 'Göz ardı etmek', 'Kapı komşu', 'Ağır ol'], a: 0, s: ['Atasözü, toplumun düşünce ve öğütlerini anlatan kalıplaşmış sözdür.']},
@@ -131,6 +140,18 @@ const BANK = {
     {t: 'Kant', q: 'Immanuel Kant’ın bilgi kuramını inceleyen ünlü eseri hangisidir?', o: ['Saf Aklın Eleştirisi', 'Devlet', 'Organon', 'Leviathan'], a: 0, s: ['Kant bu eserinde aklın sınırlarını inceler.']},
     {t: 'Bilgi kuramı', q: 'Akılcılığa (rasyonalizm) göre bilginin temel kaynağı nedir?', o: ['Duyular', 'Akıl', 'Deney', 'Gelenek'], a: 1, s: ['Akılcılar, doğru bilginin akıldan geldiğini savunur.']},
   ],
+  din: [
+    {t: 'İnanç esasları', q: 'İslam inancında kadere inanmak neyi ifade eder?', o: ['Her şeyin Allah’ın bilgisi ve takdiriyle olduğuna inanmak', 'İnsanın hiçbir şeyi seçemeyeceğine inanmak', 'Dünyanın hiç var olmadığına inanmak', 'Ahireti inkâr etmek'], a: 0, s: ['Kader, Allah’ın her şeyi bilip takdir etmesi anlamına gelir.']},
+    {t: 'İbadet', q: 'Zekât, hangi malın belirli bir oranının ihtiyaç sahiplerine verilmesidir?', o: ['Nisap miktarını aşan mal', 'Yalnızca altın', 'Yalnızca hayvanlar', 'Yalnızca gelir vergisi'], a: 0, s: ['Zekât, nisap miktarına ulaşan malın belirli bir oranıdır.']},
+    {t: 'Kur’an', q: 'Kur’an-ı Kerim’in ilk indirilen surelerinden biri hangisidir?', o: ['Fatiha', 'Alak', 'İhlas', 'Nas'], a: 1, s: ['Alak suresinin ilk ayetleri ilk vahiy kabul edilir.']},
+    {t: 'Hz. Muhammed', q: 'Hz. Muhammed’in doğduğu şehir hangisidir?', o: ['Medine', 'Mekke', 'Kudüs', 'Taif'], a: 1, s: ['Hz. Muhammed, Mekke’de doğmuştur.']},
+    {t: 'İbadet', q: 'Günde kaç vakit namaz kılınır?', o: ['3', '4', '5', '7'], a: 2, s: ['Farz namazlar günde beş vakittir.']},
+    {t: 'İbadet', q: 'Oruç hangi aya tutulur?', o: ['Şaban', 'Ramazan', 'Muharrem', 'Recep'], a: 1, s: ['Oruç, Ramazan ayında tutulur.']},
+    {t: 'İslam’ın şartları', q: 'İslam’ın şartları (esasları) kaç tanedir?', o: ['3', '4', '5', '6'], a: 2, s: ['Kelime-i şehadet, namaz, oruç, zekât ve hac.']},
+    {t: 'İman esasları', q: 'İman esasları kaç tanedir?', o: ['6', '5', '7', '8'], a: 0, s: ['Allah’a, meleklere, kitaplara, peygamberlere, ahirete ve kadere iman.']},
+    {t: 'Hz. Muhammed', q: 'Hz. Muhammed’e ilk vahyin geldiği mağara hangisidir?', o: ['Sevr', 'Hira', 'Uhud', 'Sevr Dağı'], a: 1, s: ['İlk vahiy Hira mağarasında gelmiştir.']},
+    {t: 'Bayramlar', q: 'Kurban ibadeti hangi bayramda yapılır?', o: ['Ramazan Bayramı', 'Kurban Bayramı', 'Aşure', 'Mevlid Kandili'], a: 1, s: ['Kurban, Kurban Bayramı’nda kesilir.']},
+  ],
   ingilizce: [
     {t: 'Present simple', q: 'She ___ to school every day.', o: ['go', 'goes', 'going', 'gone'], a: 1, s: ['Üçüncü tekil şahıs (she) ile simple present fiile -s/-es eklenir.']},
     {t: 'Present continuous', q: 'I ___ reading a book now.', o: ['am', 'is', 'are', 'be'], a: 0, s: ['"I" ile "am" kullanılır; present continuous: am + V-ing.']},
@@ -159,6 +180,31 @@ export const SUBJECTS = [
   {key: 'felsefe', name: 'Felsefe', minutes: 20},
   {key: 'ingilizce', name: 'İngilizce', minutes: 20},
 ];
+
+// LGS denemesi: 90 soru (Türkçe 20, Matematik 20, Fen 20, İnkılap 10, Din 10, İngilizce 10).
+export const LGS_MINUTES = 155;
+const LGS_MATH_IDS = ['5-ebob', '5-bolunebilme', '8-uslu', '8-kok', '7-olasilik', '8-ozdeslik', '7-denklem', '8-dogrusal-egim', '8-pisagor', '8-donusum', '8-medyan', '7-ortalama', '7-cember', '7-hacim', '6-oran', '6-yuzde', '7-yuzde-artis'];
+
+export function buildLgs(rng = Math.random) {
+  const random = rndFrom(rng);
+  const questions = [];
+  // Matematik: 8. sınıf ve alt sınıf konularından, yeni sorularla.
+  const mathOrder = shuffle(LGS_MATH_IDS, random);
+  for (let i = 0; i < 20; i++) {
+    const id = mathOrder[i % mathOrder.length];
+    const q = generateQuestion(id, rng);
+    const topic = topics.find(t => t.id === id);
+    const {options, correctIndex} = choicesFor(q, rng);
+    questions.push({topicName: 'Matematik', question: q, options, correctIndex, topic: topic?.name});
+  }
+  questions.push(...questionsFor('turkce', 20, random, rng).map(x => ({...x, topicName: 'Türkçe'})));
+  questions.push(...questionsFor('biyoloji', 10, random, rng).map(x => ({...x, topicName: 'Fen Bilimleri'})));
+  questions.push(...questionsFor('fizik', 10, random, rng).map(x => ({...x, topicName: 'Fen Bilimleri'})));
+  questions.push(...questionsFor('tarih', 10, random, rng).map(x => ({...x, topicName: 'T.C. İnkılap Tarihi'})));
+  questions.push(...questionsFor('din', 10, random, rng).map(x => ({...x, topicName: 'Din Kültürü'})));
+  questions.push(...questionsFor('ingilizce', 10, random, rng).map(x => ({...x, topicName: 'İngilizce'})));
+  return {grade: 8, questions, title: 'LGS denemesi', minutes: LGS_MINUTES};
+}
 
 export const KARMA_MATH = 6;
 export const KARMA_PLAN = {fizik: 4, kimya: 4, biyoloji: 4, turkce: 6, tarih: 4, cografya: 4, felsefe: 4, ingilizce: 4};
