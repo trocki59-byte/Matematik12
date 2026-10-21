@@ -3,6 +3,7 @@ import {createProgressStore} from './progress.js';
 import {createSession} from './session.js';
 import {EXAM_LENGTH, LETTERS, buildExam, gradeExam, examTopicsFor} from './exams.js';
 import {createAuthStore, PIN_PATTERN} from './auth.js';
+import {buildDeneme, DENEMELER} from './deneme.js';
 import {VERSION} from './version.js';
 
 // ---------- Yardımcılar ----------
@@ -291,7 +292,8 @@ function renderExamIntro(grade) {
 }
 
 function renderExamStart(grade, options = {}) {
-  examState = {grade, options, exam: buildExam(grade, Math.random, EXAM_LENGTH, options.pool ?? null)};
+  const exam = options.builder ? options.builder() : buildExam(grade, Math.random, EXAM_LENGTH, options.pool ?? null);
+  examState = {grade, options, exam};
   renderExamForm();
 }
 
@@ -321,8 +323,28 @@ function renderExamForm() {
       h('button', {class: 'primary-button', type: 'submit', text: 'Sınavı bitir'}),
       h('a', {class: 'ghost-link', href: back, text: 'Vazgeç'})));
 
+  // Süre sınırı varsa kalan süreyi gösterir; süre bitince sınav otomatik bitirilir.
+  let timerId = null;
+  const clock = examState.options.minutes ? h('p', {class: 'exam-clock', 'aria-live': 'off'}) : null;
+  if (clock) {
+    const end = Date.now() + examState.options.minutes * 60000;
+    const updateClock = () => {
+      const left = Math.max(0, end - Date.now());
+      const m = Math.floor(left / 60000), sec = Math.floor((left % 60000) / 1000);
+      clock.textContent = `Kalan süre ${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+      if (left === 0) { clearInterval(timerId); form.requestSubmit(); }
+    };
+    timerId = setInterval(() => {
+      // Sayfadan ayrılındıysa sayacı durdur.
+      if (!form.isConnected) { clearInterval(timerId); return; }
+      updateClock();
+    }, 1000);
+    updateClock();
+  }
+
   form.addEventListener('submit', e => {
     e.preventDefault();
+    clearInterval(timerId);
     const picks = exam.questions.map((_, i) => {
       const checked = form.querySelector(`input[name="${groupName(i)}"]:checked`);
       return checked ? Number(checked.value) : null;
@@ -336,7 +358,8 @@ function renderExamForm() {
   app.replaceChildren(
     h('nav', {class: 'breadcrumb'}, h('a', {href: back, text: `← ${title_}`})),
     h('header', {class: 'grade-head'}, title,
-      h('p', {text: 'Her soru için beş seçenekten birini seç. Bitirince sonucunu ve doğru cevapları görebilirsin.'})),
+      h('p', {text: 'Her soru için beş seçenekten birini seç. Bitirince sonucunu ve doğru cevapları görebilirsin.'}),
+      clock),
     form);
   setPage(title_, title);
 }
@@ -486,6 +509,12 @@ function renderPrepHome() {
     h('header', {class: 'grade-head'}, title,
       h('p', {text: `${prep.length} konu · her konudan sonsuz soru · beş şıklı testlerle kendini ölç`})),
     h('section', {class: 'exam-card'},
+      h('h2', {text: 'Deneme sınavları'}),
+      h('p', {text: `${DENEMELER.tyt.title} ve ${DENEMELER.ayt.title}: 40 soru, beş şık, süre sayacı. Her seferinde sorular değişir.`}),
+      h('div', {class: 'prep-actions'},
+        h('a', {href: '#/deneme/tyt', text: 'TYT denemesi başlat'}),
+        h('a', {href: '#/deneme/ayt', text: 'AYT denemesi başlat'}))),
+    h('section', {class: 'exam-card'},
       h('h2', {text: 'Karışık hazırlık testi'}),
       h('p', {text: `Tüm hazırlık konularından ${EXAM_LENGTH} soru, beş şıklı. Her seferinde sorular değişir.`}),
       h('a', {class: 'primary-link', href: '#/hazirlik/karisik', text: 'Karışık test başlat →'})),
@@ -520,6 +549,12 @@ function route() {
       renderTopic(topic, parts[2] === 'alistirma' ? 'alistirma' : 'anlatim');
       return;
     }
+  }
+  if (parts[0] === 'deneme' && DENEMELER[parts[1]]) {
+    const kind = parts[1];
+    const d = DENEMELER[kind];
+    renderExamStart(12, {builder: () => buildDeneme(kind), label: d.title, title: d.title, backHref: '#/hazirlik', minutes: d.minutes});
+    return;
   }
   if (parts[0] === 'hazirlik') {
     if (parts[1] === 'karisik') {

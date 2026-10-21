@@ -26,6 +26,10 @@ Her sınıfın sayfasında bir sınav bölümü var. Sınav, sınıfın konular�
 
 12. sınıf sayfasındaki **Üniversiteye hazırlık** bölümünde 18 konu var. Her konunun anlatımı ve sonsuz alıştırması bulunur. Ayrıca konu bazlı 10 soruluk beş şıklı testler ve karışık bir hazırlık testi çözülebilir; sonuçlar sınav geçmişine etiketiyle kaydedilir.
 
+## Deneme sınavları
+
+Üniversiteye hazırlık bölümünde **TYT** ve **AYT matematik denemeleri** var: 40 soru, beş şık ve süre sayacı (60 dk, tahmini). Konu ağırlıkları yayımlanan ÖSYM konu dağılımlarına göre ayarlandı (kaynaklar: eleman.net, bilgenc.com). Gerçek sınav soruları kullanılmaz; her denemede sorular yeniden üretilir.
+
 ## Giriş ve öğrenci hesabı
 
 Uygulama **TROÇKİ STUDİO · Matematik Öğreniyorum** giriş ekranıyla açılır. Öğrenci adını, sınıfını ve 4 rakamlı şifresini girerek hesap oluşturur; sonra aynı bilgilerle giriş yapar. Hesaplar bu tarayıcıda saklanır, şifre düz metin olarak tutulmaz (tuzlanmış SHA-256 özeti). Bu yerel bir giriştir; sunucu tabanlı değildir.
