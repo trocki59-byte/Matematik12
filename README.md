@@ -14,13 +14,17 @@
 | 9 | Kümeler, mantık, mutlak değer, eşitsizlikler, üçgende açılar, köklü sayılar, veri analizi |
 | 10 | Fonksiyonlar, ikinci dereceden denklemler ve Vieta, permütasyon–kombinasyon, çember, zar olasılığı |
 | 11 | Trigonometri, logaritma, aritmetik ve geometrik diziler, parabol, polinomlarda kalan teoremi |
-| 12 | Limit, türev ve kritik noktalar, belirli integral, analitik geometri, 2×2 determinant |
+| 12 | Limit, türev ve kritik noktalar, belirli integral, analitik geometri, 2×2 determinant; **üniversiteye hazırlık** (teğet, alan, koşullu olasılık, dizi ve toplam, kombinasyon–permütasyon, parabol, ters ve bileşke fonksiyon, mutlak değer, doğru ve çember, özel açı değerleri, karmaşık sayılar, kalan teoremi, logaritma) |
 
 Konu başlıkları Milli Eğitim Bakanlığı ortaokul matematik öğretim programındaki öğrenme alanlarına göre düzenlenmiştir. Kazanım ayrıntıları için güncel MEB programını esas alın.
 
 ## Sınavlar
 
 Her sınıfın sayfasında bir sınav bölümü var. Sınav, sınıfın konularından karışık 10 soruluk beş şıklı çoktan seçmeli test. Her seferinde sorular ve şıklar yeniden üretilir. Puanlar tarayıcıda (yerel depoda) tarih ve sınıfla birlikte saklanır; sınav geçmişi sınıf sayfasından görülebilir.
+
+## Üniversiteye hazırlık
+
+12. sınıf sayfasındaki **Üniversiteye hazırlık** bölümünde 18 konu var. Her konunun anlatımı ve sonsuz alıştırması bulunur. Ayrıca konu bazlı 10 soruluk beş şıklı testler ve karışık bir hazırlık testi çözülebilir; sonuçlar sınav geçmişine etiketiyle kaydedilir.
 
 ## Giriş ve öğrenci hesabı
 

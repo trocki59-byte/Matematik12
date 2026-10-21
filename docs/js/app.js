@@ -115,6 +115,7 @@ function renderHome(grade) {
     h('div', {class: 'grade-head'}, title,
       h('p', {text: `${gradeTopics.length} konu · ${units.length} ünite`})),
     examBanner(grade),
+    grade === 12 ? prepBanner() : null,
     ...units.map(unit => h('section', {class: 'unit', 'aria-labelledby': `unit-${grade}-${units.indexOf(unit)}`},
       h('h2', {id: `unit-${grade}-${units.indexOf(unit)}`, text: unit.name}),
       h('div', {class: 'cards'}, unit.topics.map(topicCard)))),
@@ -274,7 +275,7 @@ function renderExamIntro(grade) {
         h('li', {},
           h('strong', {text: `%${Math.round((100 * e.score) / e.total)}`}),
           h('span', {text: ` · ${e.score}/${e.total} doğru`}),
-          h('time', {datetime: e.date, text: ` · ${formatDate(e.date)}`}))))
+          h('time', {datetime: e.date, text: ` · ${formatDate(e.date)}`}), e.label ? h('span', {text: ` · ${e.label}`}) : null)))
     : h('p', {class: 'muted', text: 'Henüz sınav çözmedin. İlk sınavını başlat!'});
 
   app.replaceChildren(
@@ -289,14 +290,16 @@ function renderExamIntro(grade) {
   setPage(`${grade}. Sınıf sınavı`, title);
 }
 
-function renderExamStart(grade) {
-  examState = {grade, exam: buildExam(grade)};
+function renderExamStart(grade, options = {}) {
+  examState = {grade, options, exam: buildExam(grade, Math.random, EXAM_LENGTH, options.pool ?? null)};
   renderExamForm();
 }
 
 function renderExamForm() {
   const {grade, exam} = examState;
-  const title = h('h1', {id: 'page-title', text: `${grade}. sınıf sınavı`});
+  const title_ = examState.options.title ?? `${grade}. sınıf sınavı`;
+  const back = examState.options.backHref ?? `#/sinav/${grade}`;
+  const title = h('h1', {id: 'page-title', text: title_});
   const error = h('p', {class: 'input-error', role: 'alert'});
   const groupName = i => `exam-q-${i}`;
 
@@ -316,7 +319,7 @@ function renderExamForm() {
     list, error,
     h('div', {class: 'exam-actions'},
       h('button', {class: 'primary-button', type: 'submit', text: 'Sınavı bitir'}),
-      h('a', {class: 'ghost-link', href: `#/sinav/${grade}`, text: 'Vazgeç'})));
+      h('a', {class: 'ghost-link', href: back, text: 'Vazgeç'})));
 
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -325,21 +328,23 @@ function renderExamForm() {
       return checked ? Number(checked.value) : null;
     });
     const result = gradeExam(exam, picks);
-    const entry = store.recordExam(grade, result.score, result.total);
+    const entry = store.recordExam(grade, result.score, result.total, undefined, examState.options.label);
     examState = {...examState, result, saved: Boolean(entry)};
     renderExamResult();
   });
 
   app.replaceChildren(
-    h('nav', {class: 'breadcrumb'}, h('a', {href: `#/sinav/${grade}`, text: `← ${grade}. sınıf sınavı`})),
+    h('nav', {class: 'breadcrumb'}, h('a', {href: back, text: `← ${title_}`})),
     h('header', {class: 'grade-head'}, title,
       h('p', {text: 'Her soru için beş seçenekten birini seç. Bitirince sonucunu ve doğru cevapları görebilirsin.'})),
     form);
-  setPage(`${grade}. Sınıf sınavı`, title);
+  setPage(title_, title);
 }
 
 function renderExamResult() {
   const {grade, result, saved} = examState;
+  const back = examState.options.backHref ?? `#/sinav/${grade}`;
+  const title_ = examState.options.title ?? `${grade}. sınıf sınavı`;
   const pct = Math.round((100 * result.score) / result.total);
   const title = h('h1', {id: 'page-title', text: `Sınav sonucu: ${result.score}/${result.total}`});
 
@@ -365,15 +370,15 @@ function renderExamResult() {
   });
 
   const retry = h('button', {class: 'primary-button', type: 'button', text: 'Yeni sınav çöz'});
-  retry.addEventListener('click', () => renderExamStart(grade));
+  retry.addEventListener('click', () => renderExamStart(grade, examState.options));
 
   app.replaceChildren(
-    h('nav', {class: 'breadcrumb'}, h('a', {href: `#/sinav/${grade}`, text: `← ${grade}. sınıf sınavı`})),
+    h('nav', {class: 'breadcrumb'}, h('a', {href: back, text: `← ${title_}`})),
     h('header', {class: 'grade-head'}, title,
       h('p', {text: `Başarı: %${pct}${saved ? ' · Puanın kaydedildi.' : ''}`})),
     h('ol', {class: 'exam-list'}, items),
     h('div', {class: 'exam-actions'}, retry,
-      h('a', {class: 'ghost-link', href: `#/sinav/${grade}`, text: 'Sınav geçmişine dön'})));
+      h('a', {class: 'ghost-link', href: back, text: 'Geri dön'})));
   setPage(`Sınav sonucu ${result.score}/${result.total}`, title);
 }
 
@@ -455,6 +460,50 @@ function renderAuth(mode = 'login') {
   nameInput.focus({preventScroll: true});
 }
 
+
+// ---------- Üniversiteye hazırlık ----------
+
+const PREP_UNIT = 'Üniversiteye hazırlık';
+const prepTopics = () => topics.filter(t => t.unit === PREP_UNIT);
+
+function prepBanner() {
+  const count = prepTopics().length;
+  return h('a', {class: 'exam-banner', href: '#/hazirlik', style: {'--accent': GRADE_COLORS[12]}},
+    h('span', {class: 'exam-banner-icon', 'aria-hidden': 'true', text: '🎓'}),
+    h('span', {class: 'exam-banner-text'},
+      h('strong', {text: 'Üniversiteye hazırlık'}),
+      h('span', {text: `${count} konu · konu konu test çöz, karışık testle ölç`})),
+    h('span', {class: 'arrow', 'aria-hidden': 'true', text: '→'}));
+}
+
+function renderPrepHome() {
+  const prep = prepTopics();
+  const recent = store.examsFor(12).filter(e => e.label).slice(0, 5);
+  const title = h('h1', {id: 'page-title', text: 'Üniversiteye hazırlık'});
+
+  app.replaceChildren(
+    h('nav', {class: 'breadcrumb'}, h('a', {href: '#/sinif/12', text: '← 12. sınıf konuları'})),
+    h('header', {class: 'grade-head'}, title,
+      h('p', {text: `${prep.length} konu · her konudan sonsuz soru · beş şıklı testlerle kendini ölç`})),
+    h('section', {class: 'exam-card'},
+      h('h2', {text: 'Karışık hazırlık testi'}),
+      h('p', {text: `Tüm hazırlık konularından ${EXAM_LENGTH} soru, beş şıklı. Her seferinde sorular değişir.`}),
+      h('a', {class: 'primary-link', href: '#/hazirlik/karisik', text: 'Karışık test başlat →'})),
+    h('div', {class: 'cards'}, prep.map(topic => h('article', {class: 'topic-card', style: {'--accent': GRADE_COLORS[12]}},
+      h('span', {class: 'topic-symbol', 'aria-hidden': 'true', text: topic.symbol}),
+      h('h3', {text: topic.name}),
+      h('p', {class: 'topic-summary', text: topic.summary}),
+      h('div', {class: 'prep-actions'},
+        h('a', {href: `#/konu/${topic.id}`, text: 'Anlatım ve alıştırma'}),
+        h('a', {href: `#/hazirlik/${topic.id}`, text: '10 soruluk test'}))))),
+    recent.length ? h('section', {class: 'exam-card'},
+      h('h2', {text: 'Son hazırlık testleri'}),
+      h('ol', {class: 'exam-history'}, recent.map(e => h('li', {},
+        h('strong', {text: `%${Math.round((100 * e.score) / e.total)}`}),
+        h('span', {text: ` · ${e.label} · ${e.score}/${e.total}`}))))) : null);
+  setPage('Üniversiteye hazırlık', title);
+}
+
 // ---------- Yönlendirme ----------
 
 function route() {
@@ -471,6 +520,19 @@ function route() {
       renderTopic(topic, parts[2] === 'alistirma' ? 'alistirma' : 'anlatim');
       return;
     }
+  }
+  if (parts[0] === 'hazirlik') {
+    if (parts[1] === 'karisik') {
+      renderExamStart(12, {pool: prepTopics(), label: 'Karışık hazırlık testi', title: 'Karışık hazırlık testi', backHref: '#/hazirlik'});
+      return;
+    }
+    const topic = parts[1] ? prepTopics().find(t => t.id === parts[1]) : null;
+    if (topic) {
+      renderExamStart(12, {pool: [topic], label: topic.name, title: `${topic.name} · test`, backHref: '#/hazirlik'});
+      return;
+    }
+    renderPrepHome();
+    return;
   }
   if (parts[0] === 'sinav' && GRADES.includes(Number(parts[1]))) {
     const examGrade = Number(parts[1]);

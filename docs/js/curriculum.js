@@ -9,12 +9,13 @@ import grade10 from './topics/grade-10.js';
 import grade11 from './topics/grade-11.js';
 import grade12 from './topics/grade-12.js';
 import grade12Prep from './topics/grade-12-prep.js';
+import grade12PrepMore from './topics/grade-12-prep-more.js';
 
 export {addSteps as additionSteps, subtractionSteps} from './steps.js';
 
 // Her konu: id, sınıf (1–12), ünite, ad, sembol, kısa açıklama,
 // konu anlatımı (lesson) ve soru üreticisi (gen).
-const ALL = [...grades14, ...grade5, ...grade6, ...grade7, ...grade8, ...grade9, ...grade10, ...grade11, ...grade12, ...grade12Prep];
+const ALL = [...grades14, ...grade5, ...grade6, ...grade7, ...grade8, ...grade9, ...grade10, ...grade11, ...grade12, ...grade12Prep, ...grade12PrepMore];
 const BY_ID = new Map(ALL.map(t => [t.id, t]));
 
 export const topics = ALL.map(({id, grade, unit, name, symbol, summary}) => ({id, grade, unit, name, symbol, summary}));
