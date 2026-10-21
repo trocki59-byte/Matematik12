@@ -1,14 +1,18 @@
-const CACHE = 'matematik12-v7';
+const CACHE = 'matematik12-v8';
 const FILES = [
   './', './index.html', './styles.css', './manifest.webmanifest', './icon.svg',
-  './js/app.js', './js/answers.js', './js/curriculum.js', './js/progress.js', './js/session.js', './js/steps.js', './js/exams.js', './js/auth.js',
+  './js/app.js', './js/answers.js', './js/curriculum.js', './js/progress.js', './js/session.js', './js/steps.js', './js/exams.js', './js/auth.js', './js/version.js',
   './js/topics/grades-1-4.js', './js/topics/grade-5.js', './js/topics/grade-6.js', './js/topics/grade-7.js', './js/topics/grade-8.js',
   './js/topics/grade-9.js', './js/topics/grade-10.js', './js/topics/grade-11.js', './js/topics/grade-12.js',
 ];
 
+// Yeni sürüm hemen devreye girmez: sayfa "Güncelle" onayı gönderince etkinleşir.
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)));
-  self.skipWaiting();
+});
+
+self.addEventListener('message', event => {
+  if (event.data === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
