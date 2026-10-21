@@ -457,3 +457,9 @@ main:focus { outline: none; }
 .prep-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6px; }
 .prep-actions a { color: var(--brand); font-weight: 700; font-size: .95rem; }
 .prep-actions a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- Deneme sayacı ---------- */
+.exam-clock {
+  margin-top: 8px; display: inline-block; padding: 6px 14px; border-radius: 999px; font-weight: 800;
+  background: var(--surface-strong); border: 1px solid var(--line); color: var(--brand-2); font-variant-numeric: tabular-nums;
+}
