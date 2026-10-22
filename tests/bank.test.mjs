@@ -64,3 +64,14 @@ test('2024 TYT matematik bölümü beş şıklı ve 40 soru', () => {
     assert.equal(new Set(q.options).size, 5);
   }
 });
+
+import {TYT_2024 as TYT_2024_ALL} from '../docs/js/bank/tyt-2024.js';
+
+test('2024 TYT bölümleri ve tam deneme doğru', () => {
+  const count = key => TYT_2024_ALL.sections.find(s => s.key === key).questions.length;
+  assert.equal(count('matematik'), 40);
+  assert.equal(count('turkce'), 40);
+  assert.equal(count('sosyal'), 20);
+  assert.equal(count('fen'), 20);
+  assert.equal(count('tam'), 120);
+});
