@@ -188,3 +188,19 @@ test('2023 AYT: matematik 40, diğer dersler 10 soru ve beş şık', () => {
     for (const q of qs) assert.equal(new Set(q.options).size, 5, key);
   }
 });
+
+import {YDT_2023} from '../docs/js/bank/ydt-2023.js';
+import {YDT_2024} from '../docs/js/bank/ydt-2024.js';
+import {YDT_2025} from '../docs/js/bank/ydt-2025.js';
+import {YDT_2026} from '../docs/js/bank/ydt-2026.js';
+
+test('YDT 2023–2026: her yıl 80 soru, beş şık ve yinelenmeyen şıklar', () => {
+  for (const bank of [YDT_2023, YDT_2024, YDT_2025, YDT_2026]) {
+    const qs = bank.sections[0].questions;
+    assert.equal(qs.length, 80, String(bank.year));
+    for (const q of qs) {
+      assert.equal(q.options.length, 5);
+      assert.equal(new Set(q.options).size, 5);
+    }
+  }
+});
