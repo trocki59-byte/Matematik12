@@ -7,6 +7,8 @@ import {buildDeneme, DENEMELER} from './deneme.js';
 import {buildSubjectTest, buildLgs, LGS_MINUTES, SUBJECTS} from './subjects.js';
 import {VERSION} from './version.js';
 import {TYT_2026} from './bank/tyt-2026.js';
+import {AYT_2026} from './bank/ayt-2026.js';
+import {TYT_2025} from './bank/tyt-2025.js';
 
 // ---------- Yardımcılar ----------
 
@@ -513,7 +515,7 @@ function lgsBanner() {
 
 // ---------- Yıl bazlı sınav bankası ----------
 
-const BANKS = [TYT_2026];
+const BANKS = [TYT_2026, AYT_2026, TYT_2025].map(b => ({...b, id: `${b.exam.toLowerCase()}-${b.year}`}));
 
 // Bölümü her açılışta farklı seçenek sırasıyla hazırlar (doğru cevap yeri karıştırılır).
 function bankExam(section) {
@@ -547,7 +549,7 @@ function renderBankHome() {
       h('h2', {text: `${bank.year} ${bank.exam}`}),
       h('p', {class: 'muted', text: bank.note}),
       h('div', {class: 'prep-actions prep-grid'},
-        bank.sections.map(sec => h('a', {href: `#/banka/${bank.year}/${sec.key}`, text: sec.label})))))));
+        bank.sections.map(sec => h('a', {href: `#/banka/${bank.id}/${sec.key}`, text: sec.label})))))));
   setPage('Sınav bankası', title);
 }
 
@@ -610,7 +612,7 @@ function route() {
     }
   }
   if (parts[0] === 'banka') {
-    const bank = BANKS.find(b => String(b.year) === parts[1]);
+    const bank = BANKS.find(b => b.id === parts[1]);
     const section = bank?.sections.find(sec => sec.key === parts[2]);
     if (section) {
       renderExamStart(12, {builder: () => bankExam(section), label: `${bank.year} ${bank.exam} · ${section.label}`, title: section.label, backHref: '#/banka', minutes: section.minutes});

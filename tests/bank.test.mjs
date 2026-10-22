@@ -28,3 +28,18 @@ test('tam deneme bölümlerin birleşimidir', () => {
   assert.equal(full.length, parts.length);
   assert.deepEqual(full.map(q => q.text), parts.map(q => q.text));
 });
+
+import {AYT_2026} from '../docs/js/bank/ayt-2026.js';
+import {TYT_2025} from '../docs/js/bank/tyt-2025.js';
+
+test('AYT 2026 ve TYT 2025 matematik bölümleri beş şıklı ve 40 soru', () => {
+  for (const bank of [AYT_2026, TYT_2025]) {
+    const section = bank.sections[0];
+    assert.equal(section.questions.length, 40);
+    for (const q of section.questions) {
+      assert.equal(q.options.length, 5);
+      assert.ok(q.correctIndex >= 0 && q.correctIndex <= 4);
+      assert.equal(new Set(q.options).size, 5);
+    }
+  }
+});
