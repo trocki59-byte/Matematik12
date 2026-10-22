@@ -1,4 +1,4 @@
-// 2024 AYT sınav bankası. Taslaktan üretildi (scratchpad/gen/build-single.mjs). Elle düzenlemeyin.
+// 2024 AYT sınav bankası. Taslaklardan üretildi (scratchpad/gen/build-2024-diger.mjs). Elle düzenlemeyin.
 // Sorular ÖSYM sorusu değildir; orijinal pratik sorulardır.
 export const AYT_2024 = {
  "year": 2024,
@@ -529,6 +529,1102 @@ export const AYT_2024 = {
      ],
      "correctIndex": 3,
      "explanation": "f'(x) = 3x², f'(2) = 12."
+    }
+   ]
+  },
+  {
+   "key": "fizik",
+   "label": "AYT Fizik (10 soru)",
+   "minutes": 15,
+   "questions": [
+    {
+     "topicName": "Fizik",
+     "text": "6 kg kütleli bir cisme 3 m/s² ivme kazandırmak için gereken kuvvet kaç N'dur?",
+     "options": [
+      "2",
+      "9",
+      "18",
+      "27",
+      "36"
+     ],
+     "correctIndex": 2,
+     "explanation": "F = 6 · 3 = 18 N."
+    },
+    {
+     "topicName": "Fizik",
+     "text": "6 Ω'luk bir iletkenden 2 A akım geçiyorsa uçlar arası gerilim kaç volttur?",
+     "options": [
+      "3",
+      "8",
+      "12",
+      "24",
+      "36"
+     ],
+     "correctIndex": 2,
+     "explanation": "V = 6 · 2 = 12 V."
+    },
+    {
+     "topicName": "Fizik",
+     "text": "5 m/s sabit hızla giden bir cisim 10 saniyede kaç metre yol alır?",
+     "options": [
+      "2",
+      "15",
+      "50",
+      "500",
+      "5"
+     ],
+     "correctIndex": 2,
+     "explanation": "Doğru cevap: 50"
+    },
+    {
+     "topicName": "Fizik",
+     "text": "2 kg kütleli bir cismin 4 m yükseklikteki potansiyel enerjisi kaç J'dür? (g = 10 m/s²)",
+     "options": [
+      "8",
+      "20",
+      "40",
+      "80",
+      "120"
+     ],
+     "correctIndex": 3,
+     "explanation": "2 · 10 · 4 = 80 J."
+    },
+    {
+     "topicName": "Fizik",
+     "text": "Durgun hâlden 2 m/s² ivmeyle hareket eden cismin 5 saniye sonraki hızı kaç m/s'dir?",
+     "options": [
+      "2",
+      "5",
+      "10",
+      "20",
+      "25"
+     ],
+     "correctIndex": 2,
+     "explanation": "v = a · t = 10 m/s."
+    },
+    {
+     "topicName": "Fizik",
+     "text": "2 kg suyun sıcaklığını 10 °C artırmak için gereken ısı kaç kJ'dür? (c = 4200 J/kg·°C)",
+     "options": [
+      "4,2",
+      "21",
+      "42",
+      "84",
+      "840"
+     ],
+     "correctIndex": 3,
+     "explanation": "Q = 2 · 4200 · 10 = 84 000 J = 84 kJ."
+    },
+    {
+     "topicName": "Fizik",
+     "text": "Akım geçen bir iletken etrafında manyetik alanın oluştuğunu ilk gözlemleyen bilim insanı kimdir?",
+     "options": [
+      "Faraday",
+      "Oersted",
+      "Maxwell",
+      "Ampère",
+      "Tesla"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Oersted"
+    },
+    {
+     "topicName": "Fizik",
+     "text": "Dalga boyu 2 m, frekansı 50 Hz olan dalganın hızı kaç m/s'dir?",
+     "options": [
+      "25",
+      "50",
+      "100",
+      "200",
+      "250"
+     ],
+     "correctIndex": 2,
+     "explanation": "v = λ · f = 2 · 50 = 100."
+    },
+    {
+     "topicName": "Fizik",
+     "text": "Yoğunluğu 1000 kg/m³ olan suda 2 m derinlikteki basınç kaç Pa'dır? (g = 10 m/s²)",
+     "options": [
+      "2000",
+      "5000",
+      "10 000",
+      "20 000",
+      "40 000"
+     ],
+     "correctIndex": 3,
+     "explanation": "P = ρgh = 1000 · 10 · 2."
+    },
+    {
+     "topicName": "Fizik",
+     "text": "Düz bir aynada oluşan görüntünün özelliği hangisidir?",
+     "options": [
+      "Gerçek ve ters",
+      "Sanal ve düz",
+      "Gerçek ve düz",
+      "Sanal ve ters",
+      "Gerçek ve büyük"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Sanal ve düz"
+    }
+   ]
+  },
+  {
+   "key": "kimya",
+   "label": "AYT Kimya (10 soru)",
+   "minutes": 15,
+   "questions": [
+    {
+     "topicName": "Kimya",
+     "text": "4 gram H₂ gazı kaç moldür? (H: 1 g/mol)",
+     "options": [
+      "0,5",
+      "1",
+      "2",
+      "4",
+      "8"
+     ],
+     "correctIndex": 2,
+     "explanation": "n = 4 / 2 = 2."
+    },
+    {
+     "topicName": "Kimya",
+     "text": "NaOH'ın mol kütlesi kaç g/mol'dür? (Na: 23, O: 16, H: 1)",
+     "options": [
+      "23",
+      "17",
+      "40",
+      "56",
+      "80"
+     ],
+     "correctIndex": 2,
+     "explanation": "Doğru cevap: 40"
+    },
+    {
+     "topicName": "Kimya",
+     "text": "Metan (CH₄) tam yandığında hangi ürünler oluşur?",
+     "options": [
+      "CO",
+      "CO₂ ve H₂O",
+      "NH₃",
+      "SO₂",
+      "H₂"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: CO₂ ve H₂O"
+    },
+    {
+     "topicName": "Kimya",
+     "text": "Atom numarası 17 olan element hangi periyotta yer alır?",
+     "options": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+     ],
+     "correctIndex": 2,
+     "explanation": "Elektron dizilimi 2-8-7, üçüncü katman."
+    },
+    {
+     "topicName": "Kimya",
+     "text": "2 mol madde 0,5 litre çözeltide çözündüğünde derişim kaç M'dir?",
+     "options": [
+      "1",
+      "2",
+      "4",
+      "8",
+      "10"
+     ],
+     "correctIndex": 2,
+     "explanation": "2 / 0,5 = 4."
+    },
+    {
+     "topicName": "Kimya",
+     "text": "Sabit basınçta sıcaklığı 2 katına çıkan ideal bir gazın hacmi nasıl değişir?",
+     "options": [
+      "Yarıya iner",
+      "İki katına çıkar",
+      "Değişmez",
+      "Dört katına çıkar",
+      "Dörtte bire iner"
+     ],
+     "correctIndex": 1,
+     "explanation": "V/T sabit (Charles)."
+    },
+    {
+     "topicName": "Kimya",
+     "text": "Turnusol kâğıdını kırmızıya çeviren çözelti hangisidir?",
+     "options": [
+      "Baz",
+      "Asit",
+      "Tuz",
+      "Su",
+      "Alkol"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Asit"
+    },
+    {
+     "topicName": "Kimya",
+     "text": "Endotermik bir tepkimede sıcaklık artırılırsa denge hangi yöne kayar?",
+     "options": [
+      "Girenler yönüne",
+      "Ürünler yönüne",
+      "Değişmez",
+      "Durur",
+      "Başlangıca döner"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Ürünler yönüne"
+    },
+    {
+     "topicName": "Kimya",
+     "text": "NaOH + HCl → NaCl + H₂O tepkimesinin türü hangisidir?",
+     "options": [
+      "Çözünme",
+      "Nötrleşme",
+      "Yanma",
+      "Ayrışma",
+      "Hidroliz"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Nötrleşme"
+    },
+    {
+     "topicName": "Kimya",
+     "text": "Etil alkol (C₂H₅OH) hangi fonksiyonel grubu içerir?",
+     "options": [
+      "Karboksil",
+      "Hidroksil",
+      "Karbonil",
+      "Amin",
+      "Eter"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Hidroksil"
+    }
+   ]
+  },
+  {
+   "key": "biyoloji",
+   "label": "AYT Biyoloji (10 soru)",
+   "minutes": 15,
+   "questions": [
+    {
+     "topicName": "Biyoloji",
+     "text": "Mitoz bölünme sonunda bir hücreden kaç yavru hücre oluşur?",
+     "options": [
+      "1",
+      "2",
+      "4",
+      "8",
+      "16"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: 2"
+    },
+    {
+     "topicName": "Biyoloji",
+     "text": "Aa genotipli bir bireyde görünen fenotip hangisidir?",
+     "options": [
+      "Çekinik",
+      "Dominant",
+      "Ara tip",
+      "Yok",
+      "Bilinmez"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Dominant"
+    },
+    {
+     "topicName": "Biyoloji",
+     "text": "Ekosistemde enerji akışı ile madde döngüsü arasındaki fark hangisidir?",
+     "options": [
+      "İkisi de tek yönlüdür.",
+      "Enerji tek yönlü, madde döngüseldir.",
+      "İkisi de döngüseldir.",
+      "Enerji döngüseldir, madde tek yönlüdür.",
+      "İkisi de rastgeledir."
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Enerji tek yönlü, madde döngüseldir."
+    },
+    {
+     "topicName": "Biyoloji",
+     "text": "Akciğer kılcal damarlarında kandan alveollere verilen gaz hangisidir?",
+     "options": [
+      "O₂",
+      "CO₂",
+      "N₂",
+      "H₂",
+      "CO"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: CO₂"
+    },
+    {
+     "topicName": "Biyoloji",
+     "text": "Proteinlerin kimyasal sindirimi hangi organda başlar?",
+     "options": [
+      "Ağız",
+      "Mide",
+      "İnce bağırsak",
+      "Kalın bağırsak",
+      "Karaciğer"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Mide"
+    },
+    {
+     "topicName": "Biyoloji",
+     "text": "Aksiyon potansiyeli oluşumunda hücre içine hızla giren iyon hangisidir?",
+     "options": [
+      "K⁺",
+      "Na⁺",
+      "Cl⁻",
+      "Ca²⁺",
+      "Mg²⁺"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Na⁺"
+    },
+    {
+     "topicName": "Biyoloji",
+     "text": "Böbreğin temel işlevsel birimi hangisidir?",
+     "options": [
+      "Nöron",
+      "Nefron",
+      "Alveol",
+      "Villus",
+      "Sarkomer"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Nefron"
+    },
+    {
+     "topicName": "Biyoloji",
+     "text": "Bitki hücre duvarını oluşturan başlıca madde hangisidir?",
+     "options": [
+      "Kitin",
+      "Selüloz",
+      "Glikojen",
+      "Nişasta",
+      "Keratin"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Selüloz"
+    },
+    {
+     "topicName": "Biyoloji",
+     "text": "Bir türün ekosistemdeki işlevsel yerine ne ad verilir?",
+     "options": [
+      "Habitat",
+      "Niş",
+      "Popülasyon",
+      "Komünite",
+      "Biyom"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Niş"
+    },
+    {
+     "topicName": "Biyoloji",
+     "text": "Döllenmiş yumurtadan gelişen yapı hangisidir?",
+     "options": [
+      "Tohum",
+      "Meyve",
+      "Çiçek",
+      "Yaprak",
+      "Kök"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Tohum"
+    }
+   ]
+  },
+  {
+   "key": "edebiyat",
+   "label": "AYT Edebiyat (10 soru)",
+   "minutes": 15,
+   "questions": [
+    {
+     "topicName": "Edebiyat",
+     "text": "Gazelin ilk beytine ne ad verilir?",
+     "options": [
+      "Makta",
+      "Matla",
+      "Mahlas",
+      "Nazım",
+      "Beyit"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Matla"
+    },
+    {
+     "topicName": "Edebiyat",
+     "text": "\"Huzur\" romanının yazarı kimdir?",
+     "options": [
+      "Ahmet Hamdi Tanpınar",
+      "Reşat Nuri Güntekin",
+      "Sabahattin Ali",
+      "Nazım Hikmet",
+      "Yakup Kadri"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Ahmet Hamdi Tanpınar"
+    },
+    {
+     "topicName": "Edebiyat",
+     "text": "\"Sinekli Bakkal\" romanının yazarı kimdir?",
+     "options": [
+      "Reşat Nuri",
+      "Halide Edib Adıvar",
+      "Yakup Kadri",
+      "Peyami Safa",
+      "Sait Faik"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Halide Edib Adıvar"
+    },
+    {
+     "topicName": "Edebiyat",
+     "text": "\"Çalıkuşu\" romanının yazarı kimdir?",
+     "options": [
+      "Reşat Nuri Güntekin",
+      "Ömer Seyfettin",
+      "Sabahattin Ali",
+      "Tevfik Fikret",
+      "Nazım Hikmet"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Reşat Nuri Güntekin"
+    },
+    {
+     "topicName": "Edebiyat",
+     "text": "Ömer Seyfettin'in hikâyelerinden biri hangisidir?",
+     "options": [
+      "Kaşağı",
+      "Huzur",
+      "Aşk-ı Memnu",
+      "Yaban",
+      "Sinekli Bakkal"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Kaşağı"
+    },
+    {
+     "topicName": "Edebiyat",
+     "text": "Türk edebiyatının ilk tiyatro eserlerinden kabul edilen yapıt hangisidir?",
+     "options": [
+      "Şair Evlenmesi",
+      "Akabi Hikâyesi",
+      "Zehra",
+      "Yeni Mülteci",
+      "Cezmi"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Şair Evlenmesi"
+    },
+    {
+     "topicName": "Edebiyat",
+     "text": "Âşık tarzı halk şiirinde şiirin müzikle söylenmesini sağlayan çalgı hangisidir?",
+     "options": [
+      "Ney",
+      "Bağlama",
+      "Kanun",
+      "Ud",
+      "Kemençe"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Bağlama"
+    },
+    {
+     "topicName": "Edebiyat",
+     "text": "\"Ateş gibi yanmak\" ifadesinde hangi söz sanatı vardır?",
+     "options": [
+      "Benzetme",
+      "Tezat",
+      "Kişileştirme",
+      "Abartma",
+      "İstiare"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Benzetme"
+    },
+    {
+     "topicName": "Edebiyat",
+     "text": "Romanda olayların geçtiği yer ve zamana ne ad verilir?",
+     "options": [
+      "Olay örgüsü",
+      "Mekân-zaman",
+      "Tema",
+      "Karakter",
+      "Bakış açısı"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Mekân-zaman"
+    },
+    {
+     "topicName": "Edebiyat",
+     "text": "Aruz ölçüsünde ölçü neye göre belirlenir?",
+     "options": [
+      "Hece sayısına",
+      "Uzun ve kısa hecelere",
+      "Vurguya",
+      "Kafiyeye",
+      "Redife"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Uzun ve kısa hecelere"
+    }
+   ]
+  },
+  {
+   "key": "tarih",
+   "label": "AYT Tarih (10 soru)",
+   "minutes": 15,
+   "questions": [
+    {
+     "topicName": "Tarih",
+     "text": "Kosova Savaşı hangi yılda yapılmıştır?",
+     "options": [
+      "1389",
+      "1402",
+      "1453",
+      "1514",
+      "1517"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: 1389"
+    },
+    {
+     "topicName": "Tarih",
+     "text": "Ankara Savaşı hangi yılda yapılmıştır?",
+     "options": [
+      "1389",
+      "1402",
+      "1453",
+      "1514",
+      "1517"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: 1402"
+    },
+    {
+     "topicName": "Tarih",
+     "text": "Çaldıran Savaşı hangi yılda yapılmıştır?",
+     "options": [
+      "1389",
+      "1402",
+      "1453",
+      "1514",
+      "1517"
+     ],
+     "correctIndex": 3,
+     "explanation": "Doğru cevap: 1514"
+    },
+    {
+     "topicName": "Tarih",
+     "text": "Mohaç Meydan Muharebesi hangi yılda yapılmıştır?",
+     "options": [
+      "1514",
+      "1526",
+      "1538",
+      "1571",
+      "1683"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: 1526"
+    },
+    {
+     "topicName": "Tarih",
+     "text": "II. Viyana Kuşatması hangi yılda yapılmıştır?",
+     "options": [
+      "1526",
+      "1571",
+      "1638",
+      "1699",
+      "1683"
+     ],
+     "correctIndex": 4,
+     "explanation": "Doğru cevap: 1683"
+    },
+    {
+     "topicName": "Tarih",
+     "text": "Tanzimat Fermanı hangi yılda ilan edilmiştir?",
+     "options": [
+      "1808",
+      "1839",
+      "1856",
+      "1876",
+      "1908"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: 1839"
+    },
+    {
+     "topicName": "Tarih",
+     "text": "Islahat Fermanı hangi yılda ilan edilmiştir?",
+     "options": [
+      "1839",
+      "1856",
+      "1876",
+      "1908",
+      "1923"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: 1856"
+    },
+    {
+     "topicName": "Tarih",
+     "text": "II. Meşrutiyet hangi yılda ilan edilmiştir?",
+     "options": [
+      "1876",
+      "1908",
+      "1909",
+      "1914",
+      "1918"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: 1908"
+    },
+    {
+     "topicName": "Tarih",
+     "text": "Kanun-i Esasi hangi yılda ilan edilmiştir?",
+     "options": [
+      "1839",
+      "1856",
+      "1876",
+      "1908",
+      "1919"
+     ],
+     "correctIndex": 2,
+     "explanation": "Doğru cevap: 1876"
+    },
+    {
+     "topicName": "Tarih",
+     "text": "Sevr Antlaşması hangi yılda imzalanmıştır?",
+     "options": [
+      "1919",
+      "1920",
+      "1921",
+      "1922",
+      "1923"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: 1920"
+    }
+   ]
+  },
+  {
+   "key": "cografya",
+   "label": "AYT Coğrafya (10 soru)",
+   "minutes": 15,
+   "questions": [
+    {
+     "topicName": "Coğrafya",
+     "text": "Türkiye'nin en büyük fay hattı hangisidir?",
+     "options": [
+      "Ege Graben Sistemi",
+      "Kuzey Anadolu Fay Hattı",
+      "Doğu Anadolu Fay Hattı",
+      "Ölüdeniz",
+      "Gediz Grabeni"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Kuzey Anadolu Fay Hattı"
+    },
+    {
+     "topicName": "Coğrafya",
+     "text": "Türkiye'nin en büyük tuzlu gölü hangisidir?",
+     "options": [
+      "Van",
+      "Tuz",
+      "Eğirdir",
+      "Işıklı",
+      "Beyşehir"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Tuz"
+    },
+    {
+     "topicName": "Coğrafya",
+     "text": "Türkiye'nin en kalabalık ili hangisidir?",
+     "options": [
+      "Ankara",
+      "İzmir",
+      "İstanbul",
+      "Bursa",
+      "Konya"
+     ],
+     "correctIndex": 2,
+     "explanation": "Doğru cevap: İstanbul"
+    },
+    {
+     "topicName": "Coğrafya",
+     "text": "Atatürk Barajı hangi nehir üzerinde kurulmuştur?",
+     "options": [
+      "Dicle",
+      "Fırat",
+      "Kızılırmak",
+      "Yeşilırmak",
+      "Meriç"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Fırat"
+    },
+    {
+     "topicName": "Coğrafya",
+     "text": "Denize doğru uzanan sivri kıyı çıkıntısına ne ad verilir?",
+     "options": [
+      "Burun",
+      "Koy",
+      "Körfez",
+      "Boğaz",
+      "Ova"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Burun"
+    },
+    {
+     "topicName": "Coğrafya",
+     "text": "Akdeniz ikliminde yazlar nasıl geçer?",
+     "options": [
+      "Soğuk ve yağışlı",
+      "Sıcak ve kurak",
+      "Serin ve yağışlı",
+      "Ilık ve yağışlı",
+      "Soğuk ve kurak"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Sıcak ve kurak"
+    },
+    {
+     "topicName": "Coğrafya",
+     "text": "Kentleşme kavramı neyi anlatır?",
+     "options": [
+      "Köylerin kalabalıklaşmasını",
+      "Nüfusun kırsaldan kente göçüyle kentlerin büyümesini",
+      "Nüfusun azalmasını",
+      "Doğal artışı",
+      "Yaş yapısını"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Nüfusun kırsaldan kente göçüyle kentlerin büyümesini"
+    },
+    {
+     "topicName": "Coğrafya",
+     "text": "Türkiye'de çay üretiminin en yoğun olduğu bölge hangisidir?",
+     "options": [
+      "Ege",
+      "Karadeniz",
+      "Akdeniz",
+      "Marmara",
+      "İç Anadolu"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Karadeniz"
+    },
+    {
+     "topicName": "Coğrafya",
+     "text": "1/25 000 ölçekli haritada 1 cm, arazide kaç metreye karşılık gelir?",
+     "options": [
+      "25 m",
+      "250 m",
+      "2500 m",
+      "25 km",
+      "2,5 km"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: 250 m"
+    },
+    {
+     "topicName": "Coğrafya",
+     "text": "Yükseldikçe sıcaklık genellikle nasıl değişir?",
+     "options": [
+      "Artar",
+      "Azalır",
+      "Sabit kalır",
+      "Önce artar",
+      "Değişmez"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Azalır"
+    }
+   ]
+  },
+  {
+   "key": "felsefe",
+   "label": "AYT Felsefe (10 soru)",
+   "minutes": 15,
+   "questions": [
+    {
+     "topicName": "Felsefe",
+     "text": "Bilginin kaynağını, doğruluğunu inceleyen felsefe dalı hangisidir?",
+     "options": [
+      "Ahlak",
+      "Bilgi felsefesi",
+      "Estetik",
+      "Varlık felsefesi",
+      "Din felsefesi"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Bilgi felsefesi"
+    },
+    {
+     "topicName": "Felsefe",
+     "text": "Varlığın temel yapısını inceleyen felsefe dalı hangisidir?",
+     "options": [
+      "Bilgi",
+      "Varlık felsefesi (ontoloji)",
+      "Ahlak",
+      "Mantık",
+      "Estetik"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Varlık felsefesi (ontoloji)"
+    },
+    {
+     "topicName": "Felsefe",
+     "text": "Metodik şüphe yöntemi kime aittir?",
+     "options": [
+      "Kant",
+      "Descartes",
+      "Hume",
+      "Locke",
+      "Hegel"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Descartes"
+    },
+    {
+     "topicName": "Felsefe",
+     "text": "Nedensellik ilişkisini sorgulayan filozof kimdir?",
+     "options": [
+      "Descartes",
+      "Hume",
+      "Kant",
+      "Platon",
+      "Aristoteles"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Hume"
+    },
+    {
+     "topicName": "Felsefe",
+     "text": "Mağara alegorisi kime aittir?",
+     "options": [
+      "Platon",
+      "Aristoteles",
+      "Sokrates",
+      "Epikür",
+      "Zenon"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Platon"
+    },
+    {
+     "topicName": "Felsefe",
+     "text": "Hazzı yaşamın amacı sayan filozof kimdir?",
+     "options": [
+      "Epikür",
+      "Zenon",
+      "Marx",
+      "Hobbes",
+      "Kant"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Epikür"
+    },
+    {
+     "topicName": "Felsefe",
+     "text": "Stoa okulunun kurucusu kimdir?",
+     "options": [
+      "Zenon",
+      "Epikür",
+      "Platon",
+      "Aristoteles",
+      "Thales"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Zenon"
+    },
+    {
+     "topicName": "Felsefe",
+     "text": "Genelden özele giden akıl yürütme türü hangisidir?",
+     "options": [
+      "Tümevarım",
+      "Tümdengelim",
+      "Analoji",
+      "Diyalektik",
+      "Sezgi"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Tümdengelim"
+    },
+    {
+     "topicName": "Felsefe",
+     "text": "\"Varoluş özden önce gelir\" düşüncesi hangi filozofa aittir?",
+     "options": [
+      "Sartre",
+      "Kant",
+      "Platon",
+      "Hegel",
+      "Marx"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Sartre"
+    },
+    {
+     "topicName": "Felsefe",
+     "text": "Tez, antitez ve sentez yöntemi kime aittir?",
+     "options": [
+      "Hegel",
+      "Kant",
+      "Hume",
+      "Locke",
+      "Comte"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Hegel"
+    }
+   ]
+  },
+  {
+   "key": "din",
+   "label": "AYT Din Kültürü (10 soru)",
+   "minutes": 15,
+   "questions": [
+    {
+     "topicName": "Din Kültürü",
+     "text": "İhsan kavramı ne anlama gelir?",
+     "options": [
+      "Allah'ı görüyormuş gibi ibadet etmek",
+      "Zekât vermek",
+      "Oruç tutmak",
+      "Hac yapmak",
+      "Namaz kılmak"
+     ],
+     "correctIndex": 0,
+     "explanation": "Doğru cevap: Allah'ı görüyormuş gibi ibadet etmek"
+    },
+    {
+     "topicName": "Din Kültürü",
+     "text": "Kur'an-ı Kerim'in indirilmeye başlandığı ay hangisidir?",
+     "options": [
+      "Şaban",
+      "Ramazan",
+      "Muharrem",
+      "Recep",
+      "Şevval"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Ramazan"
+    },
+    {
+     "topicName": "Din Kültürü",
+     "text": "Kurban ibadetinin dayandığı kıssa hangi peygamberle ilgilidir?",
+     "options": [
+      "Hz. Nuh",
+      "Hz. İbrahim",
+      "Hz. Musa",
+      "Hz. İsa",
+      "Hz. Yusuf"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Hz. İbrahim"
+    },
+    {
+     "topicName": "Din Kültürü",
+     "text": "Sahur, oruç için neyi ifade eder?",
+     "options": [
+      "İftar vaktini",
+      "Oruca başlanacak zamanı, sahur vaktinin bitimini",
+      "Gece namazını",
+      "Öğle vaktini",
+      "Akşam vaktini"
+     ],
+     "correctIndex": 1,
+     "explanation": "Sahur, imsak vaktinden önce yenen yemektir; oruç imsakta başlar."
+    },
+    {
+     "topicName": "Din Kültürü",
+     "text": "Ulu'l-azm peygamber sayısı kaçtır?",
+     "options": [
+      "3",
+      "4",
+      "5",
+      "6",
+      "7"
+     ],
+     "correctIndex": 2,
+     "explanation": "Doğru cevap: 5"
+    },
+    {
+     "topicName": "Din Kültürü",
+     "text": "Aşağıdakilerden hangisi haramdır?",
+     "options": [
+      "Ekmek",
+      "Su",
+      "Alkol",
+      "Süt",
+      "Bal"
+     ],
+     "correctIndex": 2,
+     "explanation": "Doğru cevap: Alkol"
+    },
+    {
+     "topicName": "Din Kültürü",
+     "text": "Hristiyanlığın kutsal kitabı hangisidir?",
+     "options": [
+      "Tevrat",
+      "Zebur",
+      "İncil",
+      "Kur'an",
+      "Suhuf"
+     ],
+     "correctIndex": 2,
+     "explanation": "Doğru cevap: İncil"
+    },
+    {
+     "topicName": "Din Kültürü",
+     "text": "İslam'da malın belli bir kısmının zekâtı, oranı hangisidir?",
+     "options": [
+      "%1",
+      "%2,5",
+      "%5",
+      "%10",
+      "%20"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: %2,5"
+    },
+    {
+     "topicName": "Din Kültürü",
+     "text": "Hz. Muhammed'in doğum yeri hangi şehirdir?",
+     "options": [
+      "Medine",
+      "Mekke",
+      "Taif",
+      "Kudüs",
+      "Kufe"
+     ],
+     "correctIndex": 1,
+     "explanation": "Doğru cevap: Mekke"
+    },
+    {
+     "topicName": "Din Kültürü",
+     "text": "Günlük farz namaz vakti sayısı kaçtır?",
+     "options": [
+      "3",
+      "4",
+      "5",
+      "6",
+      "7"
+     ],
+     "correctIndex": 2,
+     "explanation": "Doğru cevap: 5"
     }
    ]
   }
