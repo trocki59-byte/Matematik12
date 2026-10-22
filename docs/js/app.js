@@ -16,6 +16,7 @@ import {TYT_2027} from './bank/tyt-2027.js';
 import {YDT_2027} from './bank/ydt-2027.js';
 import {TYT_2023} from './bank/tyt-2023.js';
 import {AYT_2027} from './bank/ayt-2027.js';
+import {AYT_2023} from './bank/ayt-2023.js';
 
 // ---------- Yardımcılar ----------
 
@@ -522,7 +523,7 @@ function lgsBanner() {
 
 // ---------- Yıl bazlı sınav bankası ----------
 
-const BANKS = [TYT_2027, YDT_2027, AYT_2027, TYT_2023, TYT_2026, AYT_2026, TYT_2025, TYT_2024, AYT_2025, AYT_2024].map(b => ({...b, id: `${b.exam.toLowerCase()}-${b.year}`}));
+const BANKS = [TYT_2027, YDT_2027, AYT_2027, AYT_2023, TYT_2023, TYT_2026, AYT_2026, TYT_2025, TYT_2024, AYT_2025, AYT_2024].map(b => ({...b, id: `${b.exam.toLowerCase()}-${b.year}`}));
 
 // Bölümü her açılışta farklı seçenek sırasıyla hazırlar (doğru cevap yeri karıştırılır).
 function bankExam(section) {

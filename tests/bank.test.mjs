@@ -176,3 +176,15 @@ test('2027 AYT: matematik 40, diğer dersler 10 soru ve beş şık', () => {
     for (const q of qs) assert.equal(new Set(q.options).size, 5, key);
   }
 });
+
+import {AYT_2023} from '../docs/js/bank/ayt-2023.js';
+
+test('2023 AYT: matematik 40, diğer dersler 10 soru ve beş şık', () => {
+  const sec = key => AYT_2023.sections.find(s => s.key === key);
+  assert.equal(sec('matematik').questions.length, 40);
+  for (const key of ['fizik', 'kimya', 'biyoloji', 'edebiyat', 'tarih', 'cografya', 'felsefe', 'din']) {
+    const qs = sec(key).questions;
+    assert.equal(qs.length, 10, key);
+    for (const q of qs) assert.equal(new Set(q.options).size, 5, key);
+  }
+});
