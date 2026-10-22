@@ -7,7 +7,7 @@ const grades14=topics.filter(t=>t.grade<=4);
 const numeric=topics.filter(t=>t.kind!=='text');
 
 test('every grade from 1 to 8 has topics, units and a lesson',()=>{
-  assert.equal(grades14.length,79);
+  assert.equal(grades14.length,99);
   for(const grade of [1,2,3,4,5,6,7,8,9,10,11,12]) {
     const list=topics.filter(t=>t.grade===grade);
     assert.ok(list.length>=(grade<=4?2:6),`grade ${grade} has only ${list.length} topics`);
