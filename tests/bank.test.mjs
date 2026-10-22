@@ -89,3 +89,13 @@ test('2024 ve 2025 AYT matematik bölümleri 40 soru ve beş şıklı', () => {
     }
   }
 });
+
+import {AYT_2026} from '../docs/js/bank/ayt-2026.js';
+
+test('2026 AYT tüm dersleri var ve soru sayıları doğru', () => {
+  const count = key => AYT_2026.sections.find(s => s.key === key).questions.length;
+  assert.equal(count('matematik'), 40);
+  for (const key of ['fizik', 'kimya', 'biyoloji', 'edebiyat', 'tarih', 'cografya', 'felsefe', 'din']) {
+    assert.equal(count(key), 10, key);
+  }
+});
