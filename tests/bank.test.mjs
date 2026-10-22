@@ -43,3 +43,24 @@ test('AYT 2026 ve TYT 2025 matematik bölümleri beş şıklı ve 40 soru', () =
     }
   }
 });
+
+import {TYT_2025 as TYT_2025_ALL} from '../docs/js/bank/tyt-2025.js';
+import {TYT_2024} from '../docs/js/bank/tyt-2024.js';
+
+test('2025 TYT bölümleri ve tam deneme doğru', () => {
+  const count = key => TYT_2025_ALL.sections.find(s => s.key === key).questions.length;
+  assert.equal(count('matematik'), 40);
+  assert.equal(count('turkce'), 40);
+  assert.equal(count('sosyal'), 20);
+  assert.equal(count('fen'), 20);
+  assert.equal(count('tam'), 120);
+});
+
+test('2024 TYT matematik bölümü beş şıklı ve 40 soru', () => {
+  const section = TYT_2024.sections[0];
+  assert.equal(section.questions.length, 40);
+  for (const q of section.questions) {
+    assert.equal(q.options.length, 5);
+    assert.equal(new Set(q.options).size, 5);
+  }
+});
