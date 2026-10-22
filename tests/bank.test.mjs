@@ -113,3 +113,27 @@ test('2025 AYT: matematik 40, diğer dersler 10 soru ve beş şık', () => {
     }
   }
 });
+
+import {TYT_2027} from '../docs/js/bank/tyt-2027.js';
+import {YDT_2027} from '../docs/js/bank/ydt-2027.js';
+
+test('2027 TYT bölüm sayıları ve tam deneme birleşimi', () => {
+  const count = key => TYT_2027.sections.find(s => s.key === key).questions.length;
+  assert.equal(count('matematik'), 40);
+  assert.equal(count('turkce'), 40);
+  assert.equal(count('sosyal'), 20);
+  assert.equal(count('fen'), 20);
+  assert.equal(count('tam'), 120);
+  const parts = ['matematik', 'turkce', 'sosyal', 'fen'].flatMap(k => TYT_2027.sections.find(s => s.key === k).questions);
+  assert.deepEqual(TYT_2027.sections.find(s => s.key === 'tam').questions.map(q => q.text), parts.map(q => q.text));
+});
+
+test('2027 YDT İngilizce 80 soru ve beş şık', () => {
+  const qs = YDT_2027.sections[0].questions;
+  assert.equal(qs.length, 80);
+  for (const q of qs) {
+    assert.equal(q.options.length, 5);
+    assert.equal(new Set(q.options).size, 5);
+    assert.ok(q.correctIndex >= 0 && q.correctIndex <= 4);
+  }
+});
