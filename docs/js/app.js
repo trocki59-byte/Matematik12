@@ -13,6 +13,7 @@ import {TYT_2024} from './bank/tyt-2024.js';
 import {AYT_2025} from './bank/ayt-2025.js';
 import {AYT_2024} from './bank/ayt-2024.js';
 import {TYT_2027} from './bank/tyt-2027.js';
+import {TYT_ANALIZ_2027} from './bank/tyt-analiz-2027.js';
 import {YDT_2027} from './bank/ydt-2027.js';
 import {YDT_2026} from './bank/ydt-2026.js';
 import {YDT_2025} from './bank/ydt-2025.js';
@@ -527,7 +528,7 @@ function lgsBanner() {
 
 // ---------- Yıl bazlı sınav bankası ----------
 
-const BANKS = [TYT_2027, YDT_2027, YDT_2026, YDT_2025, YDT_2024, YDT_2023, AYT_2027, AYT_2023, TYT_2023, TYT_2026, AYT_2026, TYT_2025, TYT_2024, AYT_2025, AYT_2024].map(b => ({...b, id: `${b.exam.toLowerCase()}-${b.year}`}));
+const BANKS = [TYT_ANALIZ_2027, TYT_2027, YDT_2027, YDT_2026, YDT_2025, YDT_2024, YDT_2023, AYT_2027, AYT_2023, TYT_2023, TYT_2026, AYT_2026, TYT_2025, TYT_2024, AYT_2025, AYT_2024].map(b => ({id: `${b.exam.toLowerCase()}-${b.year}`, ...b}));
 
 // Bölümü her açılışta farklı seçenek sırasıyla hazırlar (doğru cevap yeri karıştırılır).
 function bankExam(section) {
@@ -558,7 +559,7 @@ function renderBankHome() {
     h('header', {class: 'grade-head'}, title,
       h('p', {text: 'Yıllara göre TYT denemeleri. Her bölüm ayrı ayrı çözülebilir; tam denemede 120 soru ve 165 dakika vardır.'})),
     h('div', {}, BANKS.map(bank => h('section', {class: 'exam-card'},
-      h('h2', {text: `${bank.year} ${bank.exam}`}),
+      h('h2', {text: bank.title ?? `${bank.year} ${bank.exam}`}),
       h('p', {class: 'muted', text: bank.note}),
       h('div', {class: 'prep-actions prep-grid'},
         bank.sections.map(sec => h('a', {href: `#/banka/${bank.id}/${sec.key}`, text: sec.label})))))));
