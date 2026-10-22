@@ -36,7 +36,7 @@ export function distractorsFor(answerText, rng) {
 // Her soru için 5 seçenek (1 doğru, 4 yanlış) hazırlar ve karıştırır.
 export function choicesFor(question, rng) {
   const random = rndFrom(rng);
-  const wrong = distractorsFor(question.answerText, rng);
+  const wrong = question.wrong ? question.wrong.slice(0, CHOICE_COUNT - 1) : distractorsFor(question.answerText, rng);
   if (wrong.length < CHOICE_COUNT - 1) throw new Error('Yeterli seçenek üretilemedi');
   const options = [question.answerText, ...wrong.slice(0, CHOICE_COUNT - 1)];
   for (let i = options.length - 1; i > 0; i--) {

@@ -26,7 +26,7 @@ test('1–4. sınıf her konu soru üretir ve cevabı seçenek üretilebilecek b
     for (let i = 0; i < 60; i++) {
       const q = generateQuestion(t.id, rng);
       assert.ok(q.text && q.answer !== undefined, t.id);
-      assert.match(String(q.answerText), /\d/, `${t.id} cevabında sayı yok: ${q.answerText}`);
+      if (t.kind !== 'text') assert.match(String(q.answerText), /\d/, `${t.id} cevabında sayı yok: ${q.answerText}`);
       const {options, correctIndex} = choicesFor(q, rng);
       assert.equal(options.length, 5, t.id);
       assert.equal(new Set(options).size, 5, t.id);
