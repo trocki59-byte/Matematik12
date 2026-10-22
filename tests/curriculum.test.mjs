@@ -4,9 +4,10 @@ import {topics,generateQuestion,lessonFor,additionSteps,subtractionSteps} from '
 import {parseAnswer,isSameAnswer} from '../docs/js/answers.js';
 
 const grades14=topics.filter(t=>t.grade<=4);
+const numeric=topics.filter(t=>t.kind!=='text');
 
 test('every grade from 1 to 8 has topics, units and a lesson',()=>{
-  assert.equal(grades14.length,37);
+  assert.equal(grades14.length,59);
   for(const grade of [1,2,3,4,5,6,7,8,9,10,11,12]) {
     const list=topics.filter(t=>t.grade===grade);
     assert.ok(list.length>=(grade<=4?2:6),`grade ${grade} has only ${list.length} topics`);
@@ -30,7 +31,7 @@ test('topic ids are unique',()=>{
 });
 
 test('every generated question has a parseable answer that matches its numeric value',()=>{
-  for(const topic of topics) for(let i=0;i<300;i++) {
+  for(const topic of numeric) for(let i=0;i<300;i++) {
     const q=generateQuestion(topic.id);
     assert.ok(q.steps.length>0,`${topic.id} steps`);
     assert.ok(Number.isFinite(q.answer),`${topic.id} answer`);
@@ -41,7 +42,7 @@ test('every generated question has a parseable answer that matches its numeric v
 });
 
 test('all 1–4 topics produce valid whole-number questions within the advertised ranges',()=>{
-  for(const topic of grades14) for(let i=0;i<1000;i++) {
+  for(const topic of grades14.filter(t=>t.kind!=='text')) for(let i=0;i<1000;i++) {
     const q=generateQuestion(topic.id);
     assert.ok(Number.isSafeInteger(q.answer));
     const match=q.text.match(/^(\d+) ([+−×÷]) (\d+) =/);

@@ -1,6 +1,7 @@
 import {rndFrom} from './steps.js';
 import grades14 from './topics/grades-1-4.js';
 import grades14More from './topics/grades-1-4-more.js';
+import grade1Subjects from './topics/grade-1-subjects.js';
 import grade5 from './topics/grade-5.js';
 import grade6 from './topics/grade-6.js';
 import grade7 from './topics/grade-7.js';
@@ -17,7 +18,7 @@ export {addSteps as additionSteps, subtractionSteps} from './steps.js';
 
 // Her konu: id, sınıf (1–12), ünite, ad, sembol, kısa açıklama,
 // konu anlatımı (lesson) ve soru üreticisi (gen).
-const ALL = [...grades14, ...grades14More, ...grade5, ...grade6, ...grade7, ...grade8, ...grade9, ...grade10, ...grade11, ...grade12, ...grade12Prep, ...grade12PrepMore];
+const ALL = [...grades14, ...grades14More, ...grade1Subjects, ...grade5, ...grade6, ...grade7, ...grade8, ...grade9, ...grade10, ...grade11, ...grade12, ...grade12Prep, ...grade12PrepMore];
 
 // Ek örnekler: konu anlatımının sonuna eklenir.
 for (const topic of ALL) {
@@ -26,7 +27,7 @@ for (const topic of ALL) {
 }
 const BY_ID = new Map(ALL.map(t => [t.id, t]));
 
-export const topics = ALL.map(({id, grade, unit, name, symbol, summary}) => ({id, grade, unit, name, symbol, summary}));
+export const topics = ALL.map(({id, grade, unit, name, symbol, summary, kind}) => ({id, grade, unit, name, symbol, summary, kind: kind ?? 'number'}));
 
 export function lessonFor(topicId) {
   const topic = BY_ID.get(topicId);
@@ -39,6 +40,17 @@ export function generateQuestion(topicId, rng = Math.random) {
   const topic = BY_ID.get(topicId);
   if (!topic) throw new Error('Bilinmeyen konu');
   const q = topic.gen(rndFrom(rng));
+  if (topic.kind === 'text') {
+    // Metin tabanlı konu: cevap bir sözcük ya da cümledir, şıklar konunun kendi yanlış seçenekleridir.
+    return {
+      text: q.text,
+      answer: q.answerText,
+      answerText: q.answerText,
+      wrong: q.wrong,
+      steps: q.steps,
+      mustSimplify: false,
+    };
+  }
   return {
     text: q.text,
     answer: q.answer,
