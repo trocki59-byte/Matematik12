@@ -164,3 +164,15 @@ test('2023 TYT bölüm sayıları ve tam deneme birleşimi', () => {
   assert.equal(count('tam'), 120);
   for (const s of TYT_2023.sections) for (const q of s.questions) assert.equal(new Set(q.options).size, 5);
 });
+
+import {AYT_2027} from '../docs/js/bank/ayt-2027.js';
+
+test('2027 AYT: matematik 40, diğer dersler 10 soru ve beş şık', () => {
+  const sec = key => AYT_2027.sections.find(s => s.key === key);
+  assert.equal(sec('matematik').questions.length, 40);
+  for (const key of ['fizik', 'kimya', 'biyoloji', 'edebiyat', 'tarih', 'cografya', 'felsefe', 'din']) {
+    const qs = sec(key).questions;
+    assert.equal(qs.length, 10, key);
+    for (const q of qs) assert.equal(new Set(q.options).size, 5, key);
+  }
+});
