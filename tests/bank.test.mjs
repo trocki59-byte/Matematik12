@@ -152,3 +152,15 @@ test('2024 AYT: matematik 40, diğer dersler 10 soru ve beş şık', () => {
     }
   }
 });
+
+import {TYT_2023} from '../docs/js/bank/tyt-2023.js';
+
+test('2023 TYT bölüm sayıları ve tam deneme birleşimi', () => {
+  const count = key => TYT_2023.sections.find(s => s.key === key).questions.length;
+  assert.equal(count('matematik'), 40);
+  assert.equal(count('turkce'), 40);
+  assert.equal(count('sosyal'), 20);
+  assert.equal(count('fen'), 20);
+  assert.equal(count('tam'), 120);
+  for (const s of TYT_2023.sections) for (const q of s.questions) assert.equal(new Set(q.options).size, 5);
+});
