@@ -75,3 +75,17 @@ test('2024 TYT bölümleri ve tam deneme doğru', () => {
   assert.equal(count('fen'), 20);
   assert.equal(count('tam'), 120);
 });
+
+import {AYT_2025} from '../docs/js/bank/ayt-2025.js';
+import {AYT_2024} from '../docs/js/bank/ayt-2024.js';
+
+test('2024 ve 2025 AYT matematik bölümleri 40 soru ve beş şıklı', () => {
+  for (const bank of [AYT_2024, AYT_2025]) {
+    const section = bank.sections[0];
+    assert.equal(section.questions.length, 40);
+    for (const q of section.questions) {
+      assert.equal(q.options.length, 5);
+      assert.equal(new Set(q.options).size, 5);
+    }
+  }
+});

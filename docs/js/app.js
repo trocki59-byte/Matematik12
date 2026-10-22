@@ -10,6 +10,8 @@ import {TYT_2026} from './bank/tyt-2026.js';
 import {AYT_2026} from './bank/ayt-2026.js';
 import {TYT_2025} from './bank/tyt-2025.js';
 import {TYT_2024} from './bank/tyt-2024.js';
+import {AYT_2025} from './bank/ayt-2025.js';
+import {AYT_2024} from './bank/ayt-2024.js';
 
 // ---------- Yardımcılar ----------
 
@@ -516,7 +518,7 @@ function lgsBanner() {
 
 // ---------- Yıl bazlı sınav bankası ----------
 
-const BANKS = [TYT_2026, AYT_2026, TYT_2025, TYT_2024].map(b => ({...b, id: `${b.exam.toLowerCase()}-${b.year}`}));
+const BANKS = [TYT_2026, AYT_2026, TYT_2025, TYT_2024, AYT_2025, AYT_2024].map(b => ({...b, id: `${b.exam.toLowerCase()}-${b.year}`}));
 
 // Bölümü her açılışta farklı seçenek sırasıyla hazırlar (doğru cevap yeri karıştırılır).
 function bankExam(section) {
