@@ -98,3 +98,18 @@ test('2026 AYT tüm dersleri var ve soru sayıları doğru', () => {
     assert.equal(count(key), 10, key);
   }
 });
+
+import {AYT_2025 as AYT_2025_ALL} from '../docs/js/bank/ayt-2025.js';
+
+test('2025 AYT: matematik 40, diğer dersler 10 soru ve beş şık', () => {
+  const sec = key => AYT_2025_ALL.sections.find(s => s.key === key);
+  assert.equal(sec('matematik').questions.length, 40);
+  for (const key of ['fizik', 'kimya', 'biyoloji', 'edebiyat', 'tarih', 'cografya', 'felsefe', 'din']) {
+    const qs = sec(key).questions;
+    assert.equal(qs.length, 10, key);
+    for (const q of qs) {
+      assert.equal(q.options.length, 5, key);
+      assert.equal(new Set(q.options).size, 5, key);
+    }
+  }
+});
