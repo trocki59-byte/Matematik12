@@ -1,2 +1,1 @@
-// Uygulama sürümü. Her yayında artırılır; servis çalışanı önbelleği (sw.js) ayrıca takip edilir.
-export const VERSION = '1.21.0';
+export const VERSION = '1.22.0';
