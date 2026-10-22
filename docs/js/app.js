@@ -6,6 +6,7 @@ import {createAuthStore, PIN_PATTERN} from './auth.js';
 import {buildDeneme, DENEMELER} from './deneme.js';
 import {buildSubjectTest, buildLgs, LGS_MINUTES, SUBJECTS} from './subjects.js';
 import {VERSION} from './version.js';
+import {TYT_2026} from './bank/tyt-2026.js';
 
 // ---------- Yardımcılar ----------
 
@@ -510,6 +511,46 @@ function lgsBanner() {
     h('span', {class: 'arrow', 'aria-hidden': 'true', text: '→'}));
 }
 
+// ---------- Yıl bazlı sınav bankası ----------
+
+const BANKS = [TYT_2026];
+
+// Bölümü her açılışta farklı seçenek sırasıyla hazırlar (doğru cevap yeri karıştırılır).
+function bankExam(section) {
+  return {
+    grade: 12,
+    title: section.label,
+    minutes: section.minutes,
+    questions: section.questions.map(q => {
+      const order = q.options.map((_, i) => i);
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      return {
+        topicName: q.topicName,
+        question: {text: q.text, steps: [q.explanation]},
+        options: order.map(i => q.options[i]),
+        correctIndex: order.indexOf(q.correctIndex),
+      };
+    }),
+  };
+}
+
+function renderBankHome() {
+  const title = h('h1', {id: 'page-title', text: 'Sınav bankası'});
+  app.replaceChildren(
+    h('nav', {class: 'breadcrumb'}, h('a', {href: '#/hazirlik', text: '← Üniversiteye hazırlık'})),
+    h('header', {class: 'grade-head'}, title,
+      h('p', {text: 'Yıllara göre TYT denemeleri. Her bölüm ayrı ayrı çözülebilir; tam denemede 120 soru ve 165 dakika vardır.'})),
+    h('div', {}, BANKS.map(bank => h('section', {class: 'exam-card'},
+      h('h2', {text: `${bank.year} ${bank.exam}`}),
+      h('p', {class: 'muted', text: bank.note}),
+      h('div', {class: 'prep-actions prep-grid'},
+        bank.sections.map(sec => h('a', {href: `#/banka/${bank.year}/${sec.key}`, text: sec.label})))))));
+  setPage('Sınav bankası', title);
+}
+
 function renderPrepHome() {
   const prep = prepTopics();
   const recent = store.examsFor(12).filter(e => e.label).slice(0, 5);
@@ -524,7 +565,8 @@ function renderPrepHome() {
       h('p', {text: `${DENEMELER.tyt.title} ve ${DENEMELER.ayt.title}: 40 soru, beş şık, süre sayacı. Her seferinde sorular değişir.`}),
       h('div', {class: 'prep-actions'},
         h('a', {href: '#/deneme/tyt', text: 'TYT denemesi başlat'}),
-        h('a', {href: '#/deneme/ayt', text: 'AYT denemesi başlat'}))),
+        h('a', {href: '#/deneme/ayt', text: 'AYT denemesi başlat'}),
+        h('a', {href: '#/banka', text: 'Yıllara göre sınav bankası'}))),
     h('section', {class: 'exam-card'},
       h('h2', {text: 'Ders denemeleri'}),
       h('p', {text: 'Fizik, kimya, biyoloji, Türkçe, tarih, coğrafya, felsefe ve İngilizce için 10 soruluk denemeler. Karma denemede tüm dersler bir arada (40 soru).'}),
@@ -566,6 +608,16 @@ function route() {
       renderTopic(topic, parts[2] === 'alistirma' ? 'alistirma' : 'anlatim');
       return;
     }
+  }
+  if (parts[0] === 'banka') {
+    const bank = BANKS.find(b => String(b.year) === parts[1]);
+    const section = bank?.sections.find(sec => sec.key === parts[2]);
+    if (section) {
+      renderExamStart(12, {builder: () => bankExam(section), label: `${bank.year} ${bank.exam} · ${section.label}`, title: section.label, backHref: '#/banka', minutes: section.minutes});
+      return;
+    }
+    renderBankHome();
+    return;
   }
   if (parts[0] === 'lgs') {
     renderExamStart(8, {builder: () => buildLgs(), label: 'LGS denemesi', title: 'LGS denemesi (90 soru)', backHref: '#/sinif/8', minutes: LGS_MINUTES});
