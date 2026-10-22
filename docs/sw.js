@@ -1,10 +1,11 @@
-const CACHE = 'matematik12-v40';
+const CACHE = 'matematik12-v41';
 const FILES = [
   './', './index.html', './styles.css', './manifest.webmanifest', './icon-v3.svg',
   './js/app.js', './js/answers.js', './js/curriculum.js', './js/progress.js', './js/session.js', './js/steps.js', './js/exams.js', './js/deneme.js', './js/subjects.js', './js/auth.js', './js/version.js',
   './js/topics/grades-1-4.js', './js/topics/grades-1-4-more.js', './js/topics/grade-1-subjects.js', './js/topics/grade-2-subjects.js', './js/topics/grade-3-subjects.js', './js/topics/grade-4-subjects.js', './js/topics/grade-5-subjects.js', './js/topics/grade-6-subjects.js', './js/topics/grade-7-subjects.js', './js/topics/grade-8-subjects.js', './js/topics/grade-5.js', './js/topics/grade-6.js', './js/topics/grade-7.js', './js/topics/grade-8.js',
   './js/topics/grade-9.js', './js/topics/grade-10.js', './js/topics/grade-11.js', './js/topics/grade-12.js', './js/topics/grade-12-prep.js', './js/topics/grade-12-prep-more.js', './js/topics/grade-8-extra.js',
-  './js/bank/tyt-2026.js', './js/bank/ayt-2026.js', './js/bank/tyt-2025.js', './js/bank/tyt-2024.js', './js/bank/ayt-2025.js', './js/bank/ayt-2024.js', './js/bank/tyt-2027.js', './js/bank/tyt-analiz-2027.js', './js/bank/ydt-2027.js', './js/bank/tyt-2023.js', './js/bank/ayt-2027.js', './js/bank/ayt-2023.js', './js/bank/ydt-2026.js', './js/bank/ydt-2025.js', './js/bank/ydt-2024.js', './js/bank/ydt-2023.js',
+  './js/bank/tyt-2026.js', './js/bank/ayt-2026.js', './js/bank/tyt-2025.js', './js/bank/tyt-2024.js', './js/bank/ayt-2025.js', './js/bank/ayt-2024.js', './js/bank/tyt-2027.js', './js/bank/tyt-analiz-2027.js',
+  './js/bank/tyt-analiz-2027-matematik.js', './js/bank/ydt-2027.js', './js/bank/tyt-2023.js', './js/bank/ayt-2027.js', './js/bank/ayt-2023.js', './js/bank/ydt-2026.js', './js/bank/ydt-2025.js', './js/bank/ydt-2024.js', './js/bank/ydt-2023.js',
 ];
 
 // Yeni sürüm hemen devreye girmez: sayfa "Güncelle" onayı gönderince etkinleşir.
