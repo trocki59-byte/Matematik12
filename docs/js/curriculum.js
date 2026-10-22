@@ -4,6 +4,7 @@ import grades14More from './topics/grades-1-4-more.js';
 import grade1Subjects from './topics/grade-1-subjects.js';
 import grade2Subjects from './topics/grade-2-subjects.js';
 import grade3Subjects from './topics/grade-3-subjects.js';
+import grade4Subjects from './topics/grade-4-subjects.js';
 import grade5 from './topics/grade-5.js';
 import grade6 from './topics/grade-6.js';
 import grade7 from './topics/grade-7.js';
@@ -20,7 +21,7 @@ export {addSteps as additionSteps, subtractionSteps} from './steps.js';
 
 // Her konu: id, sınıf (1–12), ünite, ad, sembol, kısa açıklama,
 // konu anlatımı (lesson) ve soru üreticisi (gen).
-const ALL = [...grades14, ...grades14More, ...grade1Subjects, ...grade2Subjects, ...grade3Subjects, ...grade5, ...grade6, ...grade7, ...grade8, ...grade9, ...grade10, ...grade11, ...grade12, ...grade12Prep, ...grade12PrepMore];
+const ALL = [...grades14, ...grades14More, ...grade1Subjects, ...grade2Subjects, ...grade3Subjects, ...grade4Subjects, ...grade5, ...grade6, ...grade7, ...grade8, ...grade9, ...grade10, ...grade11, ...grade12, ...grade12Prep, ...grade12PrepMore];
 
 // Ek örnekler: konu anlatımının sonuna eklenir.
 for (const topic of ALL) {
