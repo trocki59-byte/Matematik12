@@ -4,7 +4,14 @@
 function textTopic({id, unit, name, symbol, summary, intro, paras, tip, items}) {
   return {
     id, grade: 3, unit, name, symbol, summary, kind: 'text',
-    lesson: {intro, sections: [{title: name, paras, tip}]},
+    lesson: {intro, sections: [
+      {title: name, paras, tip},
+      {
+        title: 'Örneklerle',
+        paras: ['Aşağıdaki örnekler konuyu pekiştirmek için hazırlanmıştır. Her birini kendin çözmeye çalış, sonra cevaba bak.'],
+        examples: items.slice(0, 3).map(it => ({problem: it.q, steps: ['Soruyu dikkatlice oku.', 'Seçenekleri tek tek değerlendir.', `Doğru cevap: ${it.a}`], answer: it.a})),
+      },
+    ]},
     gen(rnd) {
       const it = items[rnd(0, items.length - 1)];
       return {text: it.q, answerText: it.a, wrong: it.w, steps: [`Doğru cevap: ${it.a}`]};
