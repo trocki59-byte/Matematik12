@@ -162,6 +162,7 @@ function renderLesson(topic) {
     article.append(block);
   });
   article.append(h('a', {class: 'primary-link', href: `#/konu/${topic.id}/alistirma`, text: 'Bu konuda alıştırma yap →'}));
+  article.append(h('a', {class: 'primary-link', href: `#/konu/${topic.id}/sinav`, text: 'Konu sonu sınavına geç →'}));
   return article;
 }
 
@@ -246,12 +247,23 @@ function statChips(s) {
   ];
 }
 
+// Konu sonu sınavı: o konudan 5 soruluk çoktan seçmeli test.
+function renderTopicExam(topic) {
+  renderExamStart(topic.grade, {
+    builder: () => buildExam(topic.grade, Math.random, 5, [topic]),
+    label: `${topic.name} konu sınavı`,
+    title: `${topic.name} · konu sınavı`,
+    backHref: `#/konu/${topic.id}`,
+  });
+}
+
 function renderTopic(topic, tab) {
   const isPractice = tab === 'alistirma';
   const title = h('h1', {id: 'page-title', text: topic.name});
   const tabs = h('nav', {class: 'tabs', 'aria-label': 'Konu bölümleri'},
     h('a', {href: `#/konu/${topic.id}`, 'aria-current': isPractice ? undefined : 'page', text: 'Konu anlatımı'}),
-    h('a', {href: `#/konu/${topic.id}/alistirma`, 'aria-current': isPractice ? 'page' : undefined, text: 'Alıştırma'}));
+    h('a', {href: `#/konu/${topic.id}/alistirma`, 'aria-current': isPractice ? 'page' : undefined, text: 'Alıştırma'}),
+    h('a', {href: `#/konu/${topic.id}/sinav`, text: 'Konu sınavı'}));
 
   app.replaceChildren(
     h('a', {class: 'back', href: `#/sinif/${topic.grade}`, text: `← ${topic.grade}. sınıf konuları`}),
@@ -620,6 +632,10 @@ function route() {
   if (parts[0] === 'konu' && parts[1]) {
     const topic = topics.find(t => t.id === parts[1]);
     if (topic) {
+      if (parts[2] === 'sinav') {
+        renderTopicExam(topic);
+        return;
+      }
       renderTopic(topic, parts[2] === 'alistirma' ? 'alistirma' : 'anlatim');
       return;
     }
