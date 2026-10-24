@@ -168,8 +168,8 @@ export default [
         {title: 'Metni okurken', paras: ['Önce metni baştan sona sessizce oku. Sonra soruları oku ve cevabı metnin içinde ara.', 'Cevap genellikle metnin bir cümlesinde yazılıdır. Tahmin etmek yerine cümleyi tekrar oku.'], tip: 'Metinde "kim", "ne", "nerede" sorularının cevaplarını bulmaya çalış.'},
       ],
       examples: [
-        {problem: 'Metin: "Ayşe nin kırmızı bir balonu var. Balon çok güzel. Ayşe balonu parkta uçuruyor." Ayşe nin balonu hangi renktir?', steps: ['Metinde "kırmızı bir balonu var" yazıyor.', 'Balonun rengi kırmızıdır.'], answer: 'kırmızı'},
-        {problem: 'Metin: "Ayşe nin kırmızı bir balonu var. Balon çok güzel. Ayşe balonu parkta uçuruyor." Ayşe balonu nerede uçuruyor?', steps: ['Metnin son cümlesine bak: "parkta uçuruyor".', 'Balonu park ta uçuruyor.'], answer: 'parkta'},
+        {problem: 'Metin: "Ayşe’nin kırmızı bir balonu var. Balon çok güzel. Ayşe balonu parkta uçuruyor." Ayşe’nin balonu hangi renktir?', steps: ['Metinde "kırmızı bir balonu var" yazıyor.', 'Balonun rengi kırmızıdır.'], answer: 'kırmızı'},
+        {problem: 'Metin: "Ayşe’nin kırmızı bir balonu var. Balon çok güzel. Ayşe balonu parkta uçuruyor." Ayşe balonu nerede uçuruyor?', steps: ['Metnin son cümlesine bak: "parkta uçuruyor".', 'Balonu parkta uçuruyor.'], answer: 'parkta'},
       ],
     },
     items: [
